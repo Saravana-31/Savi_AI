@@ -1,25 +1,38 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { motion } from "framer-motion"
-import { Download, ArrowLeft, Clock, Target, Brain, AlertTriangle, Volume2, VolumeX, Eye, Bot } from "lucide-react"
+import {
+  Download,
+  ArrowLeft,
+  Clock,
+  Target,
+  Brain,
+  AlertTriangle,
+  Volume2,
+  VolumeX,
+  Eye,
+  Bot,
+} from "lucide-react"
 import Link from "next/link"
 import { useSession } from "next-auth/react"
-import { useRouter, useSearchParams } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { Navbar } from "@/components/navbar"
 import { AnimatedPage } from "@/components/animated-page"
 import toast from "react-hot-toast"
 import jsPDF from "jspdf"
 import html2canvas from "html2canvas"
 
-export function ReportPage() {
+interface ReportPageProps {
+  candidateId: string
+}
+
+export default function ReportPage({ candidateId }: ReportPageProps) {
   const { data: session } = useSession()
   const router = useRouter()
-  const searchParams = useSearchParams()
-  const interviewId = searchParams.get("id")
 
   const [reportData, setReportData] = useState<any>(null)
   const [loading, setLoading] = useState(true)
@@ -29,13 +42,17 @@ export function ReportPage() {
       router.push("/login")
       return
     }
-
-    fetchReportData()
-  }, [session, interviewId])
+    if (candidateId) {
+      fetchReportData()
+    } else {
+      toast.error("Interview ID missing")
+      setLoading(false)
+    }
+  }, [session, candidateId])
 
   const fetchReportData = async () => {
     try {
-      const response = await fetch(`/api/interview?id=${interviewId}`)
+      const response = await fetch(`/api/interview?id=${candidateId}`)
       if (response.ok) {
         const data = await response.json()
         setReportData(data)
@@ -63,7 +80,16 @@ export function ReportPage() {
             "I'm motivated by solving challenging problems and creating impactful solutions...",
             "I once failed to meet a project deadline, but I learned to communicate earlier...",
           ],
-          emotions: ["Confident", "Nervous", "Focused", "Confident", "Focused", "Nervous", "Confident", "Focused"],
+          emotions: [
+            "Confident",
+            "Nervous",
+            "Focused",
+            "Confident",
+            "Focused",
+            "Nervous",
+            "Confident",
+            "Focused",
+          ],
           eyeContactScores: [85, 72, 88, 90, 78, 65, 92, 80],
           timeTaken: [45000, 60000, 30000, 90000, 55000, 40000, 35000, 70000],
           tabSwitches: 2,
@@ -78,8 +104,8 @@ export function ReportPage() {
         })
       }
     } catch (error) {
-      console.error("Error fetching report:", error)
-      toast.error("Error loading report data")
+      console.error("Error fetching:", error)
+      toast.error("Error loading report")
     } finally {
       setLoading(false)
     }
@@ -90,7 +116,7 @@ export function ReportPage() {
       toast.loading("Generating professional PDF report...")
 
       const element = document.getElementById("report-content")
-      if (!element) return
+      if (!element) throw new Error("Report content not found")
 
       const canvas = await html2canvas(element, {
         scale: 2,
@@ -105,14 +131,14 @@ export function ReportPage() {
       const pdf = new jsPDF("p", "mm", "a4")
 
       // Add watermark
-      pdf.setGState(new pdf.GState({ opacity: 0.1 }))
-      pdf.setFontSize(50)
-      pdf.setTextColor(200, 200, 200)
-      pdf.text("SaviAI | Confidential", 105, 150, {
-        angle: 45,
-        align: "center",
-      })
-      pdf.setGState(new pdf.GState({ opacity: 1 }))
+const GState = (pdf as any).GState
+// @ts-ignore
+pdf.setGState(new GState({ opacity: 0.1 }))
+pdf.setFontSize(50)
+pdf.setTextColor(200, 200, 200)
+pdf.text("SaviAI | Confidential", 105, 150, { angle: 45, align: "center" })
+// @ts-ignore
+pdf.setGState(new GState({ opacity: 1 }))
 
       // Add header with branding
       pdf.setFontSize(24)
@@ -123,15 +149,21 @@ export function ReportPage() {
       pdf.setTextColor(100, 116, 139) // Gray
       pdf.text(`Generated on: ${new Date().toLocaleDateString()}`, 20, 35)
       pdf.text(`Candidate: ${session?.user?.name || "Anonymous"}`, 20, 42)
+
+      // Calculate overallScore for header
+      const overallScore = Math.round(
+        (reportData?.emotions.filter((e: string) => e === "Confident").length /
+          reportData?.emotions.length) *
+          100,
+      ) || 0
       pdf.text(`Overall Score: ${overallScore}%`, 20, 49)
 
-      // Add the main content
+      // Add the main content image
       const imgWidth = 170
       const imgHeight = (canvas.height * imgWidth) / canvas.width
-
       pdf.addImage(imgData, "PNG", 20, 60, imgWidth, imgHeight)
 
-      // Add footer to all pages
+      // Footer on every page
       const pageCount = pdf.getNumberOfPages()
       for (let i = 1; i <= pageCount; i++) {
         pdf.setPage(i)
@@ -140,8 +172,11 @@ export function ReportPage() {
         pdf.text(`Page ${i} of ${pageCount} | SaviAI © 2024 | Confidential`, 20, 285)
       }
 
+      // Save PDF
       pdf.save(
-        `SaviAI_Interview_Report_${session?.user?.name?.replace(/\s+/g, "_")}_${new Date().toISOString().split("T")[0]}.pdf`,
+        `SaviAI_Interview_Report_${session?.user?.name?.replace(/\s+/g, "_") || "Candidate"}_${new Date()
+          .toISOString()
+          .split("T")[0]}.pdf`,
       )
       toast.success("📄 Professional report downloaded successfully!")
     } catch (error) {
@@ -156,7 +191,7 @@ export function ReportPage() {
         <div className="min-h-screen bg-gradient-to-br from-slate-50 via-indigo-50 to-purple-100 dark:from-slate-900 dark:via-indigo-900 dark:to-purple-900 flex items-center justify-center">
           <motion.div
             animate={{ rotate: 360 }}
-            transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
             className="w-16 h-16 border-4 border-indigo-500 border-t-transparent rounded-full"
           />
         </div>
@@ -192,21 +227,20 @@ export function ReportPage() {
   }
 
   const getEmotionEmoji = (emotion: string) => {
-    const emojiMap: { [key: string]: string } = {
+    const emojiMap: Record<string, string> = {
       Confident: "😊",
       Nervous: "😰",
       Focused: "🤔",
       Anxious: "😟",
       Comfortable: "😌",
     }
-    return emojiMap[emotion] || "😐"
+    return emojiMap[emotion] ?? "😐"
   }
 
   return (
     <AnimatedPage>
       <div className="min-h-screen bg-gradient-to-br from-slate-50 via-indigo-50 to-purple-100 dark:from-slate-900 dark:via-indigo-900 dark:to-purple-900">
         <Navbar />
-
         <div className="pt-24 p-6">
           {/* Header */}
           <motion.div
@@ -233,7 +267,6 @@ export function ReportPage() {
               </Link>
               <h1 className="text-4xl font-bold text-slate-900 dark:text-slate-100">Mock Interview Report 📊</h1>
             </div>
-
             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
               <Button
                 onClick={downloadPDF}
@@ -248,6 +281,7 @@ export function ReportPage() {
           <div id="report-content" className="max-w-7xl mx-auto space-y-8">
             {/* Overview Cards */}
             <div className="grid md:grid-cols-5 gap-6">
+              {/* Overall Score */}
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
                 <Card className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-lg border border-white/20 shadow-xl">
                   <CardContent className="p-6 text-center">
@@ -260,6 +294,7 @@ export function ReportPage() {
                 </Card>
               </motion.div>
 
+              {/* Average Response Time */}
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
                 <Card className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-lg border border-white/20 shadow-xl">
                   <CardContent className="p-6 text-center">
@@ -274,6 +309,7 @@ export function ReportPage() {
                 </Card>
               </motion.div>
 
+              {/* Average Eye Contact */}
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
                 <Card className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-lg border border-white/20 shadow-xl">
                   <CardContent className="p-6 text-center">
@@ -288,20 +324,20 @@ export function ReportPage() {
                 </Card>
               </motion.div>
 
+              {/* Tab Switches */}
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
                 <Card className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-lg border border-white/20 shadow-xl">
                   <CardContent className="p-6 text-center">
                     <div className="w-16 h-16 bg-gradient-to-r from-orange-500 to-red-600 rounded-full flex items-center justify-center mx-auto mb-4">
                       <AlertTriangle className="w-8 h-8 text-foreground" />
                     </div>
-                    <div className="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-2">
-                      {reportData.tabSwitches}
-                    </div>
+                    <div className="text-3xl font-bold text-slate-900 dark:text-slate-100 mb-2">{reportData.tabSwitches}</div>
                     <div className="text-sm text-slate-600 dark:text-slate-400">Tab Switches</div>
                   </CardContent>
                 </Card>
               </motion.div>
 
+              {/* Speech Used */}
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }}>
                 <Card className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-lg border border-white/20 shadow-xl">
                   <CardContent className="p-6 text-center">
@@ -360,130 +396,18 @@ export function ReportPage() {
                                 emotion === "Confident"
                                   ? "default"
                                   : emotion === "Focused"
-                                    ? "secondary"
-                                    : "destructive"
+                                  ? "secondary"
+                                  : "destructive"
                               }
                               className="text-sm"
                             >
                               {emotion}
                             </Badge>
-                            <div className="text-sm text-slate-500">
-                              {Math.round(reportData.timeTaken[index] / 1000)}s
-                            </div>
+                            <div className="text-sm text-slate-500">{Math.round(reportData.timeTaken[index] / 1000)}s</div>
                             <div className="text-sm text-slate-500">👁️ {reportData.eyeContactScores[index]}%</div>
                           </div>
                         </motion.div>
                       ))}
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </motion.div>
-
-            {/* Performance Breakdown */}
-            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.8 }}>
-              <Card className="bg-white/90 dark:bg-slate-800/90 backdrop-blur-lg border border-white/20 shadow-xl">
-                <CardHeader>
-                  <CardTitle className="text-2xl font-bold text-slate-900 dark:text-slate-100">
-                    Performance Breakdown
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-6">
-                  <div className="grid md:grid-cols-3 gap-8">
-                    <div className="text-center">
-                      <div className="relative w-32 h-32 mx-auto mb-4">
-                        <svg className="w-32 h-32 transform -rotate-90" viewBox="0 0 36 36">
-                          <path
-                            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            className="text-slate-200 dark:text-slate-700"
-                          />
-                          <motion.path
-                            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeDasharray={`${(emotionCounts.confident / reportData.emotions.length) * 100}, 100`}
-                            className="text-green-500"
-                            initial={{ strokeDasharray: "0, 100" }}
-                            animate={{
-                              strokeDasharray: `${(emotionCounts.confident / reportData.emotions.length) * 100}, 100`,
-                            }}
-                            transition={{ duration: 2, delay: 0.8 }}
-                          />
-                        </svg>
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <span className="text-4xl">😊</span>
-                        </div>
-                      </div>
-                      <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-200">Confident</h3>
-                      <p className="text-2xl font-bold text-green-600">{emotionCounts.confident}</p>
-                    </div>
-
-                    <div className="text-center">
-                      <div className="relative w-32 h-32 mx-auto mb-4">
-                        <svg className="w-32 h-32 transform -rotate-90" viewBox="0 0 36 36">
-                          <path
-                            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            className="text-slate-200 dark:text-slate-700"
-                          />
-                          <motion.path
-                            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeDasharray={`${(emotionCounts.focused / reportData.emotions.length) * 100}, 100`}
-                            className="text-blue-500"
-                            initial={{ strokeDasharray: "0, 100" }}
-                            animate={{
-                              strokeDasharray: `${(emotionCounts.focused / reportData.emotions.length) * 100}, 100`,
-                            }}
-                            transition={{ duration: 2, delay: 1.0 }}
-                          />
-                        </svg>
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <span className="text-4xl">🤔</span>
-                        </div>
-                      </div>
-                      <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-200">Focused</h3>
-                      <p className="text-2xl font-bold text-blue-600">{emotionCounts.focused}</p>
-                    </div>
-
-                    <div className="text-center">
-                      <div className="relative w-32 h-32 mx-auto mb-4">
-                        <svg className="w-32 h-32 transform -rotate-90" viewBox="0 0 36 36">
-                          <path
-                            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            className="text-slate-200 dark:text-slate-700"
-                          />
-                          <motion.path
-                            d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeDasharray={`${(emotionCounts.nervous / reportData.emotions.length) * 100}, 100`}
-                            className="text-orange-500"
-                            initial={{ strokeDasharray: "0, 100" }}
-                            animate={{
-                              strokeDasharray: `${(emotionCounts.nervous / reportData.emotions.length) * 100}, 100`,
-                            }}
-                            transition={{ duration: 2, delay: 1.2 }}
-                          />
-                        </svg>
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <span className="text-4xl">😰</span>
-                        </div>
-                      </div>
-                      <h3 className="text-lg font-semibold text-slate-800 dark:text-slate-200">Nervous</h3>
-                      <p className="text-2xl font-bold text-orange-600">{emotionCounts.nervous}</p>
                     </div>
                   </div>
                 </CardContent>
@@ -522,8 +446,8 @@ export function ReportPage() {
                                 reportData.emotions[index] === "Confident"
                                   ? "default"
                                   : reportData.emotions[index] === "Focused"
-                                    ? "secondary"
-                                    : "destructive"
+                                  ? "secondary"
+                                  : "destructive"
                               }
                               className="text-xs"
                             >
@@ -533,9 +457,7 @@ export function ReportPage() {
                         </div>
                         <p className="text-slate-600 dark:text-slate-400 mb-3 font-medium">{question}</p>
                         <div className="bg-white dark:bg-slate-700 p-4 rounded-lg border border-slate-200 dark:border-slate-600">
-                          <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
-                            {reportData.answers[index]}
-                          </p>
+                          <p className="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">{reportData.answers[index]}</p>
                         </div>
                       </motion.div>
                     ))}
@@ -560,14 +482,10 @@ export function ReportPage() {
                         🎯 Overall Performance
                       </h4>
                       <p className="text-slate-600 dark:text-slate-400 leading-relaxed">
-                        Excellent work! You demonstrated confidence in {emotionCounts.confident} out of{" "}
-                        {reportData.emotions.length} responses (
-                        {Math.round((emotionCounts.confident / reportData.emotions.length) * 100)}%). Your average
-                        response time of {Math.round(reportData.metrics.averageResponseTime / 1000)} seconds shows good
-                        preparation, and your {Math.round(reportData.metrics.averageEyeContact)}% average eye contact
-                        indicates strong engagement.
-                        {reportData.speechUsed &&
-                          " Using the speech feature shows you're comfortable with audio feedback."}
+                        Excellent work! You demonstrated confidence in {emotionCounts.confident} out of {reportData.emotions.length} responses (
+                        {Math.round((emotionCounts.confident / reportData.emotions.length) * 100)}%). Your average response time of {Math.round(reportData.metrics.averageResponseTime / 1000)} seconds shows good
+                        preparation, and your {Math.round(reportData.metrics.averageEyeContact)}% average eye contact indicates strong engagement.
+                        {reportData.speechUsed && " Using the speech feature shows you're comfortable with audio feedback."}
                       </p>
                     </div>
 
@@ -579,34 +497,24 @@ export function ReportPage() {
                         {reportData.tabSwitches > 0 && (
                           <li className="flex items-start space-x-2">
                             <span className="text-orange-500 mt-1">•</span>
-                            <span>
-                              Minimize distractions - you switched tabs {reportData.tabSwitches} times during the
-                              interview
-                            </span>
+                            <span>Minimize distractions - you switched tabs {reportData.tabSwitches} times during the interview</span>
                           </li>
                         )}
                         {emotionCounts.nervous > 0 && (
                           <li className="flex items-start space-x-2">
                             <span className="text-orange-500 mt-1">•</span>
-                            <span>
-                              Practice relaxation techniques to reduce nervousness in {emotionCounts.nervous} responses
-                            </span>
+                            <span>Practice relaxation techniques to reduce nervousness in {emotionCounts.nervous} responses</span>
                           </li>
                         )}
                         {reportData.metrics.averageEyeContact < 80 && (
                           <li className="flex items-start space-x-2">
                             <span className="text-orange-500 mt-1">•</span>
-                            <span>
-                              Work on maintaining consistent eye contact with the camera throughout your responses
-                            </span>
+                            <span>Work on maintaining consistent eye contact with the camera throughout your responses</span>
                           </li>
                         )}
                         <li className="flex items-start space-x-2">
                           <span className="text-orange-500 mt-1">•</span>
-                          <span>
-                            Consider practicing the STAR method (Situation, Task, Action, Result) for behavioral
-                            questions
-                          </span>
+                          <span>Consider practicing the STAR method (Situation, Task, Action, Result) for behavioral questions</span>
                         </li>
                       </ul>
                     </div>

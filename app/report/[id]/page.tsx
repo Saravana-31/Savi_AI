@@ -1,5 +1,12 @@
-import { ReportPage } from "@/components/report-page"
+import React from 'react'
+import ReportPage from '@/components/report-page'
 
-export default function Report({ params }: { params: { id: string } }) {
+interface PageProps {
+  params: {
+    id: string
+  }
+}
+
+export default function Page({ params }: PageProps) {
   return <ReportPage candidateId={params.id} />
 }
