@@ -1,19 +1,12 @@
-version: "3.9"
-
 services:
   saviai:
-    image: saviai:1.0   # If using local image
-    # If using Docker Hub use:
-    # image: yourdockerhubusername/saviai:1.0
-
+    image: saravanap/saviai:1.0
     container_name: saviai_app
 
     ports:
       - "3000:3000"
 
-    environment:
-      MONGODB_URI: ${MONGODB_URI}
-      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
-      NEXTAUTH_URL: ${NEXTAUTH_URL}
+    env_file:
+      - .env
 
     restart: unless-stopped
