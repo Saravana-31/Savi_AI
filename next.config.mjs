@@ -9,6 +9,24 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
+  // Next.js 16: Turbopack config (takes precedence)
+  turbopack: {
+    resolveAlias: {
+      fs: false,
+      path: false,
+      os: false,
+      crypto: false,
+      stream: false,
+      net: false,
+      tls: false,
+      zlib: false,
+      assert: false,
+      http: false,
+      https: false,
+      encoding: false,
+    },
+  },
+  // Keep webpack config for backwards compatibility / local development
   webpack: (config, { isServer }) => {
     if (!isServer) {
       config.resolve.fallback = {
@@ -24,7 +42,7 @@ const nextConfig = {
         assert: false,
         http: false,
         https: false,
-        encoding: false, // <--- prevent encoding error
+        encoding: false,
       }
     }
     return config
