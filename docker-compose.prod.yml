@@ -23,11 +23,9 @@ services:
       timeout: 5s
       retries: 5
 
-  # Next.js Frontend & API Backend Service
+  # Next.js Frontend & API Backend Service (from Docker Hub)
   nextjs-app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: saravanap/saviai-app:1.0
     container_name: saviai_app
     ports:
       - "3000:3000"
@@ -44,11 +42,9 @@ services:
       - saviai-network
     restart: unless-stopped
 
-  # AI Service (Node.js microservice)
+  # AI Service (from Docker Hub)
   ai-service:
-    build:
-      context: ./services/ai
-      dockerfile: Dockerfile
+    image: saravanap/saviai-ai:1.0
     container_name: saviai_ai_service
     ports:
       - "5000:5000"
