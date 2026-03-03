@@ -464,19 +464,27 @@ export function InterviewPage() {
       <AnimatedPage>
         <EnhancedBackground />
         <div className="min-h-screen flex items-center justify-center">
-          <Card className="glass p-8 text-center">
+          <div
+            className="p-10 text-center rounded-2xl"
+            style={{
+              background: "rgba(5, 8, 22, 0.85)",
+              border: "1px solid rgba(0, 212, 255, 0.2)",
+              backdropFilter: "blur(20px)",
+              boxShadow: "0 0 40px rgba(0, 212, 255, 0.1)",
+            }}
+          >
             <motion.div
               animate={{ rotate: 360 }}
               transition={{ duration: 2, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
               className="w-16 h-16 mx-auto mb-4"
             >
-              <Brain className="w-full h-full text-emerald-500" />
+              <Brain className="w-full h-full text-cyan-400" />
             </motion.div>
-            <h2 className="text-2xl font-bold mb-2">Savi is preparing your interview...</h2>
-            <p className="text-slate-600 dark:text-slate-400">
+            <h2 className="text-2xl font-bold text-white mb-2">Savi is preparing your interview...</h2>
+            <p className="text-slate-400">
               {jobContext ? `Loading questions for ${jobContext.jobTitle}` : "Loading personalized questions"}
             </p>
-          </Card>
+          </div>
         </div>
       </AnimatedPage>
     )
@@ -534,7 +542,14 @@ export function InterviewPage() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ duration: 0.5 }}
               >
-                <Card className="glass border-0 shadow-2xl">
+                <Card
+                  className="border-0 shadow-2xl"
+                  style={{
+                    background: "rgba(5, 8, 22, 0.85)",
+                    border: "1px solid rgba(0, 212, 255, 0.15)",
+                    backdropFilter: "blur(20px)",
+                  }}
+                >
                   <CardContent className="p-8">
                     <div className="flex items-start space-x-4 mb-6">
                       <motion.div
@@ -590,11 +605,10 @@ export function InterviewPage() {
                       </div>
 
                       <Badge
-                        className={`px-3 py-1 ${
-                          currentEmotionData?.isDetected
+                        className={`px-3 py-1 ${currentEmotionData?.isDetected
                             ? "bg-green-100 text-green-700 border-green-300"
                             : "bg-gray-100 text-gray-700 border-gray-300"
-                        }`}
+                          }`}
                       >
                         {currentEmotionData?.isDetected ? "Face Detected" : "Searching..."}
                       </Badge>

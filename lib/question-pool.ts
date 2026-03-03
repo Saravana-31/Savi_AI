@@ -300,6 +300,49 @@ const JOB_SPECIFIC_QUESTIONS: { [key: string]: Question[] } = {
 export class QuestionSelector {
   private static usedQuestions: Map<string, Set<string>> = new Map()
 
+  /**
+   * Load questions from the JSON question bank filtered by role and topic.
+   * Falls back to getUniqueQuestions on fetch error.
+   */
+  static async getQuestionsForConfig(role: string, topic: string, count = 8): Promise<Question[]> {
+    try {
+      // fetch from the static JSON served in /public/data/
+      const res = await fetch("/data/question-bank.json")
+      if (!res.ok) throw new Error(`Failed to fetch question bank: ${res.status}`)
+
+      const bank: Record<string, Record<string, Array<{ id: string; question: string; difficulty: string; tags: string[] }>>> =
+        await res.json()
+
+      const roleData = bank[role]
+      if (!roleData) {
+        console.warn(`Role "${role}" not found in question bank, falling back`)
+        return QuestionSelector.getUniqueQuestions("anon", count)
+      }
+
+      const topicQuestions = roleData[topic] || []
+      if (topicQuestions.length === 0) {
+        console.warn(`Topic "${topic}" not found for role "${role}", falling back`)
+        return QuestionSelector.getUniqueQuestions("anon", count)
+      }
+
+      // Convert to Question shape
+      const converted: Question[] = topicQuestions.map((q) => ({
+        id: q.id,
+        text: q.question,
+        category: (topic === "Behavioral" ? "behavioral" : topic === "DSA" ? "technical" : "situational") as Question["category"],
+        difficulty: (q.difficulty as Question["difficulty"]) || "medium",
+        skills: q.tags,
+      }))
+
+      // Shuffle and return up to count
+      const shuffled = [...converted].sort(() => Math.random() - 0.5)
+      return shuffled.slice(0, Math.min(count, shuffled.length))
+    } catch (error) {
+      console.error("getQuestionsForConfig error, using fallback:", error)
+      return QuestionSelector.getUniqueQuestions("anon", count)
+    }
+  }
+
   static async getUniqueQuestions(userId: string, count = 8): Promise<Question[]> {
     const userUsedQuestions = this.usedQuestions.get(userId) || new Set()
 

@@ -33,11 +33,11 @@ export async function POST(request: NextRequest) {
       // Store job context with interview
       jobContext: jobContext
         ? {
-            jobTitle: jobContext.jobTitle,
-            jobDescription: jobContext.jobDescription,
-            matchedSkills: jobContext.matchedSkills,
-            matchPercentage: jobContext.matchPercentage,
-          }
+          jobTitle: jobContext.jobTitle,
+          jobDescription: jobContext.jobDescription,
+          matchedSkills: jobContext.matchedSkills,
+          matchPercentage: jobContext.matchPercentage,
+        }
         : null,
       metrics: {
         averageResponseTime: data.metrics?.averageResponseTime || 0,
@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
         overallScore: Math.round(
           ((data.emotions?.filter((e: string) => e === "Confident" || e === "Happy").length || 0) /
             (data.emotions?.length || 1)) *
-            100,
+          100,
         ),
       },
       createdAt: new Date(),
@@ -56,10 +56,25 @@ export async function POST(request: NextRequest) {
 
     const result = await interviews.insertOne(interview)
 
+    // ── Size guard: log document size, never send full raw arrays back ─────────
+    const docSizeKB = Math.round(JSON.stringify(interview).length / 1024)
+    console.log(`[Interview] Saved document size: ${docSizeKB} KB`)
+    if (docSizeKB > 500) {
+      console.warn(`[Interview] Document size ${docSizeKB}KB exceeds 500KB limit — check payload`)
+    }
+
+    // Return only a lightweight receipt — NOT the full interview object
     return NextResponse.json({
       success: true,
       interviewId: result.insertedId.toString(),
-      interview: interview,
+      summary: {
+        type: interview.type,
+        questionsCount: (interview.questions as unknown[]).length,
+        averageEyeContact: interview.metrics.averageEyeContact,
+        overallScore: interview.metrics.overallScore,
+        totalDuration: interview.metrics.totalDuration,
+        tabSwitches: interview.tabSwitches,
+      },
     })
   } catch (error) {
     console.error("Interview API error:", error)

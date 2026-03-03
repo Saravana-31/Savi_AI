@@ -1,91 +1,3 @@
-// import type { NextAuthOptions } from "next-auth"
-// import { MongoDBAdapter } from "@next-auth/mongodb-adapter"
-// import CredentialsProvider from "next-auth/providers/credentials"
-// import clientPromise from "./mongodb"
-
-// export const authOptions: NextAuthOptions = {
-//   adapter: MongoDBAdapter(clientPromise),
-//   providers: [
-//     CredentialsProvider({
-//       name: "credentials",
-//       credentials: {
-//         email: { label: "Email", type: "email" },
-//         password: { label: "Password", type: "password" },
-//         name: { label: "Name", type: "text" },
-//         isSignUp: { label: "Is Sign Up", type: "text" },
-//       },
-//       async authorize(credentials) {
-//         if (!credentials?.email) return null
-
-//         const client = await clientPromise
-//         const users = client.db().collection("users")
-
-//         if (credentials.isSignUp === "true") {
-//           // Sign up logic
-//           const existingUser = await users.findOne({ email: credentials.email })
-//           if (existingUser) {
-//             throw new Error("User already exists")
-//           }
-
-//           const newUser = {
-//             email: credentials.email,
-//             name: credentials.name,
-//             role: "candidate",
-//             createdAt: new Date(),
-//             password: credentials.password, // In production, hash this!
-//           }
-
-//           const result = await users.insertOne(newUser)
-//           return {
-//             id: result.insertedId.toString(),
-//             email: newUser.email,
-//             name: newUser.name,
-//             role: "candidate",
-//           }
-//         } else {
-//           // Sign in logic
-//           const user = await users.findOne({
-//             email: credentials.email,
-//             password: credentials.password, // In production, compare hashed passwords!
-//           })
-
-//           if (user) {
-//             return {
-//               id: user._id.toString(),
-//               email: user.email,
-//               name: user.name,
-//               role: user.role || "candidate",
-//             }
-//           }
-//         }
-
-//         return null
-//       },
-//     }),
-//   ],
-//   session: {
-//     strategy: "jwt",
-//   },
-//   callbacks: {
-//     async jwt({ token, user }) {
-//       if (user) {
-//         token.role = user.role
-//       }
-//       return token
-//     },
-//     async session({ session, token }) {
-//       if (token) {
-//         session.user.id = token.sub
-//         session.user.role = token.role
-//       }
-//       return session
-//     },
-//   },
-//   pages: {
-//     signIn: "/login",
-//     signUp: "/register",
-//   },
-// }
 import type { NextAuthOptions } from "next-auth"
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter"
 import CredentialsProvider from "next-auth/providers/credentials"
@@ -161,7 +73,7 @@ export const authOptions: NextAuthOptions = {
       return token
     },
     async session({ session, token }) {
-      if (token) {
+      if (token && session.user) {
         session.user.id = token.sub
         session.user.role = token.role
       }
@@ -170,6 +82,5 @@ export const authOptions: NextAuthOptions = {
   },
   pages: {
     signIn: "/login",
-    signUp: "/register",
   },
 }

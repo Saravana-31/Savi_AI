@@ -1,11 +1,8 @@
 "use client"
 
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef, useEffect, useCallback } from "react"
 import { motion } from "framer-motion"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Camera, CameraOff, Eye, AlertTriangle, CheckCircle, Loader2 } from "lucide-react"
+import { Camera, CameraOff, Eye, AlertTriangle, CheckCircle, Loader2, GripVertical } from "lucide-react"
 import { faceDetectionService, type EmotionData } from "@/lib/face-detection"
 import toast from "react-hot-toast"
 
@@ -18,386 +15,396 @@ interface LiveFacePreviewProps {
 export function LiveFacePreview({ isVisible, onEmotionDetected, onCameraReady }: LiveFacePreviewProps) {
   const [isCameraActive, setIsCameraActive] = useState(false)
   const [isInitializing, setIsInitializing] = useState(false)
-  const [userInteracted, setUserInteracted] = useState(false)
   const [currentEmotion, setCurrentEmotion] = useState<EmotionData | null>(null)
   const [cameraError, setCameraError] = useState<string | null>(null)
   const [retryCount, setRetryCount] = useState(0)
+
+  // Drag state
+  const [position, setPosition] = useState({ x: 0, y: 0 })
+  const [isDragging, setIsDragging] = useState(false)
+  const dragStartRef = useRef({ mouseX: 0, mouseY: 0, posX: 0, posY: 0 })
+  const panelRef = useRef<HTMLDivElement>(null)
+
   const videoRef = useRef<HTMLVideoElement>(null)
   const streamRef = useRef<MediaStream | null>(null)
+  // Track when we last got a real face detection — for stale-state guard
+  const lastDetectedRef = useRef<number>(0)
+  const stalenessTimerRef = useRef<NodeJS.Timeout | null>(null)
+
+  // Initialize position: top-right of viewport
+  useEffect(() => {
+    const right = 24
+    const top = 88 // below navbar
+    setPosition({ x: window.innerWidth - 320 - right, y: top })
+  }, [])
 
   useEffect(() => {
     if (isVisible) {
       initializeFaceDetection()
     }
-
-    return () => {
-      cleanup()
-    }
+    return () => { cleanup() }
   }, [isVisible])
 
   const initializeFaceDetection = async () => {
     try {
       await faceDetectionService.initialize()
-      console.log("Face detection service initialized")
     } catch (error) {
       console.error("Face detection initialization error:", error)
     }
   }
 
-  const handleStartCamera = async () => {
-    if (!userInteracted) {
-      setUserInteracted(true)
+  // ── Drag Logic (mouse) ──────────────────────────────────────────────────────
+  const onMouseDown = useCallback((e: React.MouseEvent) => {
+    e.preventDefault()
+    setIsDragging(true)
+    dragStartRef.current = {
+      mouseX: e.clientX,
+      mouseY: e.clientY,
+      posX: position.x,
+      posY: position.y,
     }
+  }, [position])
 
+  useEffect(() => {
+    const onMouseMove = (e: MouseEvent) => {
+      if (!isDragging) return
+      const dx = e.clientX - dragStartRef.current.mouseX
+      const dy = e.clientY - dragStartRef.current.mouseY
+      const newX = dragStartRef.current.posX + dx
+      const newY = dragStartRef.current.posY + dy
+      const panelW = panelRef.current?.offsetWidth ?? 320
+      const panelH = panelRef.current?.offsetHeight ?? 400
+      setPosition({
+        x: Math.max(0, Math.min(window.innerWidth - panelW, newX)),
+        y: Math.max(0, Math.min(window.innerHeight - panelH, newY)),
+      })
+    }
+    const onMouseUp = () => setIsDragging(false)
+
+    if (isDragging) {
+      window.addEventListener("mousemove", onMouseMove)
+      window.addEventListener("mouseup", onMouseUp)
+    }
+    return () => {
+      window.removeEventListener("mousemove", onMouseMove)
+      window.removeEventListener("mouseup", onMouseUp)
+    }
+  }, [isDragging])
+
+  // ── Drag Logic (touch) ──────────────────────────────────────────────────────
+  const onTouchStart = useCallback((e: React.TouchEvent) => {
+    const touch = e.touches[0]
+    setIsDragging(true)
+    dragStartRef.current = {
+      mouseX: touch.clientX,
+      mouseY: touch.clientY,
+      posX: position.x,
+      posY: position.y,
+    }
+  }, [position])
+
+  useEffect(() => {
+    const onTouchMove = (e: TouchEvent) => {
+      if (!isDragging) return
+      e.preventDefault()
+      const touch = e.touches[0]
+      const dx = touch.clientX - dragStartRef.current.mouseX
+      const dy = touch.clientY - dragStartRef.current.mouseY
+      const newX = dragStartRef.current.posX + dx
+      const newY = dragStartRef.current.posY + dy
+      const panelW = panelRef.current?.offsetWidth ?? 320
+      const panelH = panelRef.current?.offsetHeight ?? 400
+      setPosition({
+        x: Math.max(0, Math.min(window.innerWidth - panelW, newX)),
+        y: Math.max(0, Math.min(window.innerHeight - panelH, newY)),
+      })
+    }
+    const onTouchEnd = () => setIsDragging(false)
+
+    if (isDragging) {
+      window.addEventListener("touchmove", onTouchMove, { passive: false })
+      window.addEventListener("touchend", onTouchEnd)
+    }
+    return () => {
+      window.removeEventListener("touchmove", onTouchMove)
+      window.removeEventListener("touchend", onTouchEnd)
+    }
+  }, [isDragging])
+
+  // ── Camera Logic ───────────────────────────────────────────────────────────
+  const handleStartCamera = async () => {
     setIsInitializing(true)
     setCameraError(null)
 
     try {
-      console.log("Starting camera initialization...")
+      if (!videoRef.current) throw new Error("Video element not found")
 
-      if (!videoRef.current) {
-        throw new Error("Video element not found")
-      }
-
-      // Stop existing stream if any
+      // Stop any existing stream
       if (streamRef.current) {
-        streamRef.current.getTracks().forEach((track) => track.stop())
+        streamRef.current.getTracks().forEach((t) => t.stop())
         streamRef.current = null
       }
 
-      // Request camera access with timeout
-      const timeoutPromise = new Promise((_, reject) => {
-        setTimeout(() => reject(new Error("Camera access timeout")), 10000)
-      })
-
+      // Acquire camera stream (single acquisition — no double getUserMedia)
       const streamPromise = navigator.mediaDevices.getUserMedia({
-        video: {
-          width: { ideal: 640 },
-          height: { ideal: 480 },
-          facingMode: "user",
-        },
+        video: { width: { ideal: 640 }, height: { ideal: 480 }, facingMode: "user" },
         audio: false,
       })
+      const timeoutPromise = new Promise<never>((_, reject) =>
+        setTimeout(() => reject(new Error("Camera access timeout")), 10000)
+      )
 
       const stream = (await Promise.race([streamPromise, timeoutPromise])) as MediaStream
       streamRef.current = stream
-
-      // Attach stream to video element
       videoRef.current.srcObject = stream
-      videoRef.current.style.background = "#000"
-      videoRef.current.style.transform = "scaleX(-1)" // Mirror effect
+      videoRef.current.style.transform = "scaleX(-1)"
 
-      // Wait for metadata to load
+      // Wait for video to be ready and playing
       await new Promise<void>((resolve, reject) => {
-        if (!videoRef.current) {
-          reject(new Error("Video element lost"))
-          return
+        const video = videoRef.current!
+        const onReady = () => { video.play().then(resolve).catch(reject) }
+        if (video.readyState >= 2) {
+          onReady()
+        } else {
+          video.onloadedmetadata = onReady
+          video.onerror = () => reject(new Error("Video loading failed"))
+          setTimeout(() => reject(new Error("Video metadata timeout")), 8000)
         }
-
-        const video = videoRef.current
-
-        video.onloadedmetadata = () => {
-          console.log("Video metadata loaded")
-          video
-            .play()
-            .then(() => {
-              console.log("Video playing successfully")
-              resolve()
-            })
-            .catch(reject)
-        }
-
-        video.onerror = () => {
-          reject(new Error("Video loading failed"))
-        }
-
-        // Fallback timeout
-        setTimeout(() => {
-          if (video.readyState >= 2) {
-            video.play().then(resolve).catch(reject)
-          } else {
-            reject(new Error("Video metadata timeout"))
-          }
-        }, 5000)
       })
 
-      // Initialize face detection
-      const success = await faceDetectionService.initializeWebcam(videoRef.current)
+      // ── Key fix: directly wire the already-playing video element to the service ──
+      // Do NOT call faceDetectionService.initializeWebcam() here — that would
+      // call getUserMedia again, stop our stream, and break the metadata event chain.
+      faceDetectionService.setVideoElement(videoRef.current)
 
-      if (success) {
-        setIsCameraActive(true)
-        onCameraReady(true)
+      setIsCameraActive(true)
+      onCameraReady(true)
+      lastDetectedRef.current = Date.now()
 
-        // Start emotion detection
-        faceDetectionService.startDetection((emotion) => {
-          setCurrentEmotion(emotion)
-          onEmotionDetected(emotion)
-        })
+      faceDetectionService.startDetection((emotion) => {
+        setCurrentEmotion(emotion)
+        onEmotionDetected(emotion)
+        if (emotion.isDetected) {
+          lastDetectedRef.current = Date.now()
+        }
+      })
 
-        toast.success("📹 Camera ready! Face detection active", {
-          duration: 3000,
-          style: {
-            background: "linear-gradient(135deg, #10b981 0%, #3b82f6 100%)",
-            color: "white",
-          },
-        })
+      // Staleness guard — reset after >5s with no detected face
+      stalenessTimerRef.current = setInterval(() => {
+        const msSinceLastDetection = Date.now() - lastDetectedRef.current
+        if (msSinceLastDetection > 5000) {
+          const resetPayload = {
+            emotion: "No face detected",
+            confidence: 0,
+            eyeContactScore: 0,
+            timestamp: Date.now(),
+            isDetected: false,
+          }
+          setCurrentEmotion(resetPayload)
+          onEmotionDetected(resetPayload)
+        }
+      }, 2000)
 
-        setRetryCount(0)
-      } else {
-        throw new Error("Face detection initialization failed")
-      }
+      toast.success("📹 Camera ready! Face detection active", {
+        duration: 3000,
+        style: { background: "rgba(0,212,255,0.1)", border: "1px solid rgba(0,212,255,0.4)", color: "#cffafe" },
+      })
+      setRetryCount(0)
     } catch (error) {
-      console.error("Camera initialization error:", error)
-
       const errorMessage = error instanceof Error ? error.message : "Unknown camera error"
       setCameraError(errorMessage)
-
       if (retryCount < 2) {
-        toast.error(`Camera error: ${errorMessage}. Retrying...`, {
-          duration: 4000,
-        })
-        setRetryCount((prev) => prev + 1)
-
-        // Retry after delay
-        setTimeout(() => {
-          handleStartCamera()
-        }, 2000)
+        toast.error(`Camera error: ${errorMessage}. Retrying...`, { duration: 4000 })
+        setRetryCount((p) => p + 1)
+        setTimeout(handleStartCamera, 2000)
       } else {
-        toast.error("❌ Camera access failed. Please check permissions and try again.", {
-          duration: 6000,
-          style: {
-            background: "linear-gradient(135deg, #ef4444 0%, #dc2626 100%)",
-            color: "white",
-          },
-        })
+        toast.error("❌ Camera access failed. Please check permissions.", { duration: 6000 })
       }
     } finally {
       setIsInitializing(false)
     }
   }
 
+
   const handleStopCamera = () => {
     cleanup()
     setIsCameraActive(false)
     onCameraReady(false)
-    setUserInteracted(false)
     setCameraError(null)
     setRetryCount(0)
-
-    toast("📹 Camera stopped", {
-      duration: 2000,
-    })
+    toast("📹 Camera stopped", { duration: 2000 })
   }
 
   const cleanup = () => {
     faceDetectionService.stopDetection()
-
+    if (stalenessTimerRef.current) {
+      clearInterval(stalenessTimerRef.current)
+      stalenessTimerRef.current = null
+    }
     if (streamRef.current) {
-      streamRef.current.getTracks().forEach((track) => track.stop())
+      streamRef.current.getTracks().forEach((t) => t.stop())
       streamRef.current = null
     }
-
-    if (videoRef.current) {
-      videoRef.current.srcObject = null
-    }
-  }
-
-  const getEmotionColor = (emotion: string) => {
-    const colors: { [key: string]: string } = {
-      Happy: "text-green-500",
-      Confident: "text-blue-500",
-      Neutral: "text-gray-500",
-      Nervous: "text-yellow-500",
-      Anxious: "text-orange-500",
-      Focused: "text-purple-500",
-    }
-    return colors[emotion] || "text-gray-500"
+    if (videoRef.current) videoRef.current.srcObject = null
   }
 
   const getEmotionEmoji = (emotion: string) => {
-    const emojiMap: { [key: string]: string } = {
-      Happy: "😊",
-      Sad: "😢",
-      Angry: "😠",
-      Surprised: "😲",
-      Fearful: "😨",
-      Disgusted: "🤢",
-      Neutral: "😐",
-      Confident: "😎",
-      Nervous: "😰",
-      Focused: "🤔",
-      Anxious: "😟",
-      Comfortable: "😌",
+    const map: Record<string, string> = {
+      Happy: "😊", Sad: "😢", Angry: "😠", Surprised: "😲",
+      Fearful: "😨", Disgusted: "🤢", Neutral: "😐",
+      Confident: "😎", Nervous: "😰", Focused: "🤔",
+      Anxious: "😟", Comfortable: "😌",
     }
-    return emojiMap[emotion] || "😐"
+    return map[emotion] || "😐"
   }
 
   if (!isVisible) return null
 
   return (
-    <motion.div
-      initial={{ opacity: 0, scale: 0.8 }}
-      animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.8 }}
-      className="fixed top-24 right-6 z-40"
+    <div
+      ref={panelRef}
+      className="fixed z-40"
+      style={{
+        left: position.x,
+        top: position.y,
+        width: 300,
+        cursor: isDragging ? "grabbing" : "default",
+        userSelect: "none",
+      }}
     >
-      <Card
-        className="w-80 shadow-2xl border-0 overflow-hidden"
+      <motion.div
+        initial={{ opacity: 0, scale: 0.85 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.85 }}
+        className="rounded-2xl overflow-hidden"
         style={{
-          background: "rgba(255, 255, 255, 0.1)",
+          background: "rgba(5, 8, 22, 0.92)",
           backdropFilter: "blur(20px)",
-          border: "1px solid rgba(255, 255, 255, 0.2)",
+          border: "1px solid rgba(0, 212, 255, 0.2)",
+          boxShadow: "0 20px 50px rgba(0,0,0,0.6), 0 0 20px rgba(0,212,255,0.1)",
         }}
       >
-        <CardContent className="p-4">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="font-bold text-slate-900 dark:text-slate-100">Live Camera</h3>
-            <Badge
-              variant="outline"
-              className={`${isCameraActive ? "border-green-300 text-green-700 bg-green-50" : "border-gray-300 text-gray-700 bg-gray-50"}`}
-            >
-              {isCameraActive ? (
-                <>
-                  <CheckCircle className="w-4 h-4 mr-1" />
-                  Active
-                </>
-              ) : (
-                <>
-                  <CameraOff className="w-4 h-4 mr-1" />
-                  Inactive
-                </>
-              )}
-            </Badge>
+        {/* Drag Handle */}
+        <div
+          onMouseDown={onMouseDown}
+          onTouchStart={onTouchStart}
+          className="flex items-center justify-between px-4 py-2.5 border-b select-none"
+          style={{
+            borderColor: "rgba(0, 212, 255, 0.12)",
+            cursor: isDragging ? "grabbing" : "grab",
+            background: "rgba(0, 212, 255, 0.04)",
+          }}
+        >
+          <div className="flex items-center space-x-2">
+            <GripVertical className="w-4 h-4 text-slate-600" />
+            <span className="text-sm font-semibold text-white">Live Camera</span>
           </div>
+          <div
+            className="flex items-center space-x-1 px-2 py-0.5 rounded-full text-xs font-medium"
+            style={
+              isCameraActive
+                ? { background: "rgba(0,212,255,0.15)", border: "1px solid rgba(0,212,255,0.3)", color: "#00d4ff" }
+                : { background: "rgba(100,116,139,0.2)", border: "1px solid rgba(100,116,139,0.3)", color: "#64748b" }
+            }
+          >
+            <CheckCircle className="w-3 h-3" />
+            <span>{isCameraActive ? "Active" : "Inactive"}</span>
+          </div>
+        </div>
 
-          {/* Video Preview */}
-          <div className="relative mb-4">
-            <div className="aspect-video bg-slate-900 rounded-xl overflow-hidden relative">
-              <video
-                ref={videoRef}
-                className="w-full h-full object-cover"
-                playsInline
-                muted
-                style={{
-                  transform: "scaleX(-1)",
-                  background: "#000",
-                }}
-              />
+        {/* Content */}
+        <div className="p-3">
+          {/* Video */}
+          <div className="relative mb-3 aspect-video rounded-xl overflow-hidden bg-slate-950">
+            <video
+              ref={videoRef}
+              className="w-full h-full object-cover"
+              playsInline
+              muted
+              style={{ transform: "scaleX(-1)" }}
+            />
 
-              {!isCameraActive && (
-                <div className="absolute inset-0 flex items-center justify-center bg-slate-800/80">
-                  <div className="text-center text-foreground">
-                    <Camera className="w-12 h-12 mx-auto mb-2 opacity-50" />
-                    <p className="text-sm">Camera Preview</p>
-                  </div>
+            {!isCameraActive && (
+              <div className="absolute inset-0 flex items-center justify-center"
+                style={{ background: "rgba(5,8,22,0.85)" }}>
+                <div className="text-center">
+                  <Camera className="w-10 h-10 mx-auto mb-2 text-slate-600" />
+                  <p className="text-xs text-slate-500">Camera Preview</p>
                 </div>
-              )}
+              </div>
+            )}
 
-              {/* Emotion Overlay */}
-              {currentEmotion && currentEmotion.isDetected && (
+            {currentEmotion?.isDetected && (
+              <>
                 <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="absolute top-2 left-2 bg-black/70 text-foreground px-3 py-1 rounded-full text-sm flex items-center space-x-2"
+                  initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }}
+                  className="absolute top-2 left-2 flex items-center space-x-1.5 px-2.5 py-1 rounded-full text-xs text-white"
+                  style={{ background: "rgba(0,0,0,0.75)", backdropFilter: "blur(4px)" }}
                 >
                   <span>{getEmotionEmoji(currentEmotion.emotion)}</span>
                   <span>{currentEmotion.emotion}</span>
-                  <span className="text-xs opacity-75">({currentEmotion.confidence}%)</span>
+                  <span className="text-slate-400">({currentEmotion.confidence}%)</span>
                 </motion.div>
-              )}
-
-              {/* Eye Contact Indicator */}
-              {currentEmotion && currentEmotion.isDetected && (
                 <motion.div
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="absolute top-2 right-2 bg-black/70 text-foreground px-2 py-1 rounded-full text-xs flex items-center space-x-1"
+                  initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+                  className="absolute top-2 right-2 flex items-center space-x-1 px-2 py-1 rounded-full text-xs text-white"
+                  style={{ background: "rgba(0,0,0,0.75)", backdropFilter: "blur(4px)" }}
                 >
-                  <Eye className="w-3 h-3" />
+                  <Eye className="w-3 h-3 text-cyan-400" />
                   <span>{currentEmotion.eyeContactScore}%</span>
                 </motion.div>
-              )}
-            </div>
+              </>
+            )}
           </div>
 
-          {/* Error Display */}
+          {/* Camera Error */}
           {cameraError && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              className="mb-4 p-3 bg-red-50 border border-red-200 rounded-xl"
-            >
-              <div className="flex items-start space-x-2">
-                <AlertTriangle className="w-4 h-4 text-red-500 mt-0.5" />
-                <div>
-                  <p className="text-sm font-medium text-red-800">Camera Error</p>
-                  <p className="text-xs text-red-600">{cameraError}</p>
-                </div>
+            <div className="mb-3 p-2 rounded-lg flex items-start space-x-2"
+              style={{ background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.3)" }}>
+              <AlertTriangle className="w-4 h-4 text-red-400 mt-0.5 flex-shrink-0" />
+              <div>
+                <p className="text-xs font-medium text-red-300">Camera Error</p>
+                <p className="text-xs text-red-400/70">{cameraError}</p>
               </div>
-            </motion.div>
+            </div>
           )}
 
           {/* Controls */}
-          <div className="space-y-3">
-            {!isCameraActive ? (
-              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                <Button
-                  onClick={handleStartCamera}
-                  disabled={isInitializing}
-                  className="w-full py-3 font-semibold rounded-xl transition-all duration-300"
-                  style={{
-                    background: isInitializing
-                      ? "rgba(156, 163, 175, 0.5)"
-                      : "linear-gradient(135deg, #10b981 0%, #059669 100%)",
-                    boxShadow: isInitializing ? "none" : "0 10px 25px rgba(16, 185, 129, 0.3)",
-                  }}
-                >
-                  {isInitializing ? (
-                    <>
-                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                      Starting Camera...
-                    </>
-                  ) : (
-                    <>
-                      <Camera className="w-4 h-4 mr-2" />
-                      Start Camera
-                    </>
-                  )}
-                </Button>
-              </motion.div>
-            ) : (
-              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-                <Button
-                  onClick={handleStopCamera}
-                  variant="outline"
-                  className="w-full py-3 font-semibold rounded-xl bg-red-50 border-red-200 text-red-700 hover:bg-red-100"
-                >
-                  <CameraOff className="w-4 h-4 mr-2" />
-                  Stop Camera
-                </Button>
-              </motion.div>
-            )}
+          {!isCameraActive ? (
+            <button
+              onClick={handleStartCamera}
+              disabled={isInitializing}
+              className="w-full py-2.5 rounded-xl text-sm font-semibold text-white flex items-center justify-center space-x-2 transition-all"
+              style={{
+                background: isInitializing ? "rgba(100,116,139,0.3)" : "linear-gradient(135deg, #00d4ff 0%, #0ea5e9 100%)",
+                boxShadow: isInitializing ? "none" : "0 0 15px rgba(0,212,255,0.3)",
+              }}
+            >
+              {isInitializing
+                ? <><Loader2 className="w-4 h-4 animate-spin" /><span>Starting...</span></>
+                : <><Camera className="w-4 h-4" /><span>Start Camera</span></>
+              }
+            </button>
+          ) : (
+            <button
+              onClick={handleStopCamera}
+              className="w-full py-2.5 rounded-xl text-sm font-semibold text-red-300 flex items-center justify-center space-x-2 transition-all"
+              style={{ background: "rgba(239,68,68,0.1)", border: "1px solid rgba(239,68,68,0.3)" }}
+            >
+              <CameraOff className="w-4 h-4" />
+              <span>Stop Camera</span>
+            </button>
+          )}
 
-            {/* Status Info */}
-            <div className="text-xs text-slate-600 dark:text-slate-400 space-y-1">
-              <div className="flex items-center justify-between">
-                <span>Face Detection:</span>
-                <span className={currentEmotion?.isDetected ? "text-green-600" : "text-gray-500"}>
-                  {currentEmotion?.isDetected ? "Active" : "Searching..."}
-                </span>
-              </div>
-              {currentEmotion?.isDetected && (
-                <div className="flex items-center justify-between">
-                  <span>Eye Contact:</span>
-                  <span className={`${currentEmotion.eyeContactScore > 70 ? "text-green-600" : "text-yellow-600"}`}>
-                    {currentEmotion.eyeContactScore}%
-                  </span>
-                </div>
-              )}
-            </div>
+          {/* Status */}
+          <div className="mt-2 flex items-center justify-between text-xs text-slate-500 px-1">
+            <span>Face Detection:</span>
+            <span className={currentEmotion?.isDetected ? "text-cyan-400" : "text-slate-600"}>
+              {currentEmotion?.isDetected ? "Active" : "Searching..."}
+            </span>
           </div>
-        </CardContent>
-      </Card>
-    </motion.div>
+        </div>
+      </motion.div>
+    </div>
   )
 }

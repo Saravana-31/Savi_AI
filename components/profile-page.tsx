@@ -150,10 +150,10 @@ export function ProfilePage() {
       improvementRate:
         interviewData.length > 1
           ? Math.round(
-              (((interviewData[interviewData.length - 1]?.score || 0) - (interviewData[0]?.score || 0)) /
-                (interviewData[0]?.score || 1)) *
-                100,
-            )
+            (((interviewData[interviewData.length - 1]?.score || 0) - (interviewData[0]?.score || 0)) /
+              (interviewData[0]?.score || 1)) *
+            100,
+          )
           : 0,
     }
 
@@ -253,7 +253,7 @@ export function ProfilePage() {
   const overallProgress = Math.round(totalScore / 3)
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+    <div className="min-h-screen" style={{ background: "linear-gradient(180deg, #050816 0%, #0a0a1e 100%)" }}>
       <EnhancedBackground />
 
       <div className="relative z-10 container mx-auto px-4 py-8 pt-24">
@@ -263,25 +263,36 @@ export function ProfilePage() {
             <CardContent className="p-8">
               <div className="flex flex-col md:flex-row items-center gap-6">
                 <Avatar className="w-24 h-24">
-                  <AvatarFallback className="bg-gradient-to-r from-blue-500 to-purple-500 text-foreground text-2xl">
+                  <AvatarFallback
+                    style={{
+                      background: "linear-gradient(135deg, #00d4ff 0%, #a855f7 100%)",
+                      color: "white",
+                      fontWeight: "bold",
+                      fontSize: "2rem",
+                    }}
+                  >
                     {session?.user?.name?.charAt(0).toUpperCase()}
                   </AvatarFallback>
                 </Avatar>
 
                 <div className="flex-1 text-center md:text-left">
-                  <h1 className="text-3xl font-bold text-foreground mb-2">{session?.user?.name}</h1>
-                  <p className="text-slate-300 mb-4">{session?.user?.email}</p>
+                  <h1 className="text-3xl font-bold text-white mb-1">{session?.user?.name}</h1>
+                  <p className="text-slate-400 mb-4">{session?.user?.email}</p>
 
                   <div className="flex flex-wrap items-center justify-center md:justify-start gap-4">
-                    <Badge variant="secondary" className={`${getLevelColor(overallLevel)} bg-opacity-20 px-3 py-1`}>
+                    <Badge
+                      variant="secondary"
+                      className={`${getLevelColor(overallLevel)} px-3 py-1`}
+                      style={{ background: "rgba(0,212,255,0.1)", border: "1px solid rgba(0,212,255,0.3)" }}
+                    >
                       <span className="flex items-center gap-2">
                         {getLevelIcon(overallLevel)}
                         {overallLevel} Level
                       </span>
                     </Badge>
-                    <div className="flex items-center gap-2 text-slate-300">
+                    <div className="flex items-center gap-2 text-slate-400 text-sm">
                       <Calendar className="w-4 h-4" />
-                      <span>Joined {new Date().toLocaleDateString()}</span>
+                      <span>Active Member</span>
                     </div>
                   </div>
                 </div>

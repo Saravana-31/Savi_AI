@@ -13,25 +13,31 @@ export class FaceDetectionService {
   private videoElement: HTMLVideoElement | null = null
   private detectionInterval: NodeJS.Timeout | null = null
   private stream: MediaStream | null = null
-async initialize() {
-  if (this.isInitialized) return;
-
-  try {
-    // Load face-api.js models from public/models directory
-    const MODEL_URL = "/models";
-    await Promise.all([
-      faceapi.nets.ssdMobilenetv1.loadFromUri(MODEL_URL),
-      faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL),
-      faceapi.nets.faceExpressionNet.loadFromUri(MODEL_URL),
-    ]);
-
-    this.isInitialized = true;
-    console.log("Face detection models loaded successfully using SSD Mobilenet");
-  } catch (error) {
-    console.warn("Face detection models not available, using mock data:", error);
-    this.isInitialized = true; // Continue with mock data
+  /** Directly wire an already-playing video element — avoids a second getUserMedia call */
+  setVideoElement(videoElement: HTMLVideoElement) {
+    this.videoElement = videoElement
+    console.log("[FaceDetection] videoElement wired, readyState:", videoElement.readyState)
   }
-}
+
+  async initialize() {
+    if (this.isInitialized) return;
+
+    try {
+      // Load face-api.js models from public/models directory
+      const MODEL_URL = "/models";
+      await Promise.all([
+        faceapi.nets.ssdMobilenetv1.loadFromUri(MODEL_URL),
+        faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL),
+        faceapi.nets.faceExpressionNet.loadFromUri(MODEL_URL),
+      ]);
+
+      this.isInitialized = true;
+      console.log("Face detection models loaded successfully using SSD Mobilenet");
+    } catch (error) {
+      console.warn("Face detection models not available, using mock data:", error);
+      this.isInitialized = true; // Continue with mock data
+    }
+  }
 
   async initializeWebcam(videoElement: HTMLVideoElement): Promise<boolean> {
     try {
@@ -66,75 +72,90 @@ async initialize() {
       console.error("Error initializing webcam:", error)
       return false
     }
-  }async detectEmotion(): Promise<EmotionData> {
-  if (!this.videoElement || !this.isInitialized) {
-    return this.getMockEmotionData();
-  }
+  } async detectEmotion(): Promise<EmotionData> {
+    if (!this.videoElement || !this.isInitialized) {
+      return this.getMockEmotionData();
+    }
 
-  try {
-    const detections = await faceapi
-      .detectAllFaces(this.videoElement, new faceapi.SsdMobilenetv1Options()) // ✅ Use SSD Mobilenet
-      .withFaceLandmarks()
-      .withFaceExpressions();
+    try {
+      const detections = await faceapi
+        .detectAllFaces(this.videoElement, new faceapi.SsdMobilenetv1Options()) // ✅ Use SSD Mobilenet
+        .withFaceLandmarks()
+        .withFaceExpressions();
 
-    if (detections.length > 0) {
-      const expressions = detections[0].expressions;
-      const landmarks = detections[0].landmarks;
+      if (detections.length > 0) {
+        const expressions = detections[0].expressions;
+        const landmarks = detections[0].landmarks;
 
-      // Get dominant emotion
-      const emotions = Object.entries(expressions);
-      const dominantEmotion = emotions.reduce((prev, current) =>
-        prev[1] > current[1] ? prev : current
-      );
+        // Get dominant emotion
+        const emotions = Object.entries(expressions);
+        const dominantEmotion = emotions.reduce((prev, current) =>
+          prev[1] > current[1] ? prev : current
+        );
 
-      // Calculate eye contact score based on face landmarks
-      const eyeContactScore = this.calculateEyeContact(landmarks);
+        // Calculate eye contact score based on face landmarks
+        const eyeContactScore = this.calculateEyeContact(landmarks);
 
-      return {
-        emotion: this.mapEmotionToReadable(dominantEmotion[0]),
-        confidence: Math.round(dominantEmotion[1] * 100),
-        eyeContactScore,
-        timestamp: Date.now(),
-        isDetected: true,
-      };
-    } else {
+        return {
+          emotion: this.mapEmotionToReadable(dominantEmotion[0]),
+          confidence: Math.round(dominantEmotion[1] * 100),
+          eyeContactScore,
+          timestamp: Date.now(),
+          isDetected: true,
+        };
+      } else {
+        return {
+          emotion: "No face detected",
+          confidence: 0,
+          eyeContactScore: 0,
+          timestamp: Date.now(),
+          isDetected: false,
+        };
+      }
+    } catch (error) {
+      console.warn("Face detection error:", error)
+      // Return a real "not detected" state — never fake metrics
       return {
         emotion: "No face detected",
         confidence: 0,
         eyeContactScore: 0,
         timestamp: Date.now(),
         isDetected: false,
-      };
+      }
     }
-  } catch (error) {
-    console.warn("Face detection failed:", error);
-    return this.getMockEmotionData();
   }
-}
-startDetection(onEmotionDetected: (emotion: EmotionData) => void) {
-  if (!this.videoElement || this.detectionInterval) return;
-
-  this.detectionInterval = setInterval(async () => {
-    const emotion = await this.detectEmotion();
-    onEmotionDetected(emotion);
-  }, 1000); // Detect every second
-}
-
-stopDetection() {
-  if (this.detectionInterval) {
-    clearInterval(this.detectionInterval);
-    this.detectionInterval = null;
+  startDetection(onEmotionDetected: (emotion: EmotionData) => void) {
+    if (!this.videoElement) {
+      console.warn("[FaceDetection] startDetection called but videoElement is null")
+      return
+    }
+    // Clear any stale interval from previous session (singleton reuse guard)
+    if (this.detectionInterval) {
+      clearInterval(this.detectionInterval)
+      this.detectionInterval = null
+    }
+    console.log("[FaceDetection] Starting detection loop, isInitialized:", this.isInitialized)
+    this.detectionInterval = setInterval(async () => {
+      const emotion = await this.detectEmotion()
+      onEmotionDetected(emotion)
+    }, 1000) // Detect every second
   }
 
-  if (this.stream) {
-    this.stream.getTracks().forEach((track) => track.stop());
-    this.stream = null;
-  }
+  stopDetection() {
+    if (this.detectionInterval) {
+      clearInterval(this.detectionInterval);
+      this.detectionInterval = null;
+    }
 
-  if (this.videoElement) {
-    this.videoElement.srcObject = null;
+    if (this.stream) {
+      this.stream.getTracks().forEach((track) => track.stop());
+      this.stream = null;
+    }
+
+    if (this.videoElement) {
+      this.videoElement.srcObject = null;
+    }
   }
-}
 
   private calculateEyeContact(landmarks: faceapi.FaceLandmarks68): number {
     try {
@@ -157,7 +178,8 @@ stopDetection() {
       const alignment = Math.abs(eyeCenter.x - noseCenter.x)
       return Math.max(0, Math.min(100, 100 - alignment * 0.5))
     } catch (error) {
-      return Math.floor(Math.random() * 30) + 70 // 70-100%
+      // Can't calculate — return 0, never fake a score
+      return 0
     }
   }
 
@@ -174,16 +196,17 @@ stopDetection() {
     return emotionMap[emotion] || "Neutral"
   }
 
+  /**
+   * Returns a genuine "not detected" payload.
+   * Used when models fail to load — no fake metrics.
+   */
   private getMockEmotionData(): EmotionData {
-    const emotions = ["Happy", "Neutral", "Focused", "Confident"]
-    const randomEmotion = emotions[Math.floor(Math.random() * emotions.length)]
-
     return {
-      emotion: randomEmotion,
-      confidence: Math.floor(Math.random() * 40) + 60, // 60-100%
-      eyeContactScore: Math.floor(Math.random() * 30) + 70, // 70-100%
+      emotion: "No face detected",
+      confidence: 0,
+      eyeContactScore: 0,
       timestamp: Date.now(),
-      isDetected: true,
+      isDetected: false,
     }
   }
 }

@@ -1,0 +1,2467 @@
+{
+    "Frontend Developer": {
+        "DSA": [
+            {
+                "id": "fe_dsa_1",
+                "question": "How would you implement a debounce function in JavaScript?",
+                "difficulty": "medium",
+                "tags": [
+                    "javascript",
+                    "performance",
+                    "timers"
+                ]
+            },
+            {
+                "id": "fe_dsa_2",
+                "question": "Explain the difference between a stack and a queue. Give a UI use case for each.",
+                "difficulty": "easy",
+                "tags": [
+                    "data-structures",
+                    "javascript"
+                ]
+            },
+            {
+                "id": "fe_dsa_3",
+                "question": "How would you flatten a deeply nested array without using Array.flat()?",
+                "difficulty": "medium",
+                "tags": [
+                    "recursion",
+                    "arrays",
+                    "javascript"
+                ]
+            },
+            {
+                "id": "fe_dsa_4",
+                "question": "Write a function to detect if a string is a palindrome.",
+                "difficulty": "easy",
+                "tags": [
+                    "strings",
+                    "algorithms"
+                ]
+            },
+            {
+                "id": "fe_dsa_5",
+                "question": "How does the Virtual DOM differ from the real DOM, and what algorithm does React use to reconcile them?",
+                "difficulty": "hard",
+                "tags": [
+                    "react",
+                    "dom",
+                    "algorithms"
+                ]
+            },
+            {
+                "id": "fe_dsa_6",
+                "question": "Implement a function to deep clone a complex JavaScript object.",
+                "difficulty": "medium",
+                "tags": [
+                    "javascript",
+                    "objects"
+                ]
+            },
+            {
+                "id": "fe_dsa_7",
+                "question": "How would you implement an LRU cache in JavaScript?",
+                "difficulty": "hard",
+                "tags": [
+                    "cache",
+                    "data-structures",
+                    "javascript"
+                ]
+            },
+            {
+                "id": "fe_dsa_8",
+                "question": "Explain event bubbling and capturing. How would you prevent certain events from propagating?",
+                "difficulty": "easy",
+                "tags": [
+                    "dom",
+                    "events",
+                    "javascript"
+                ]
+            },
+            {
+                "id": "fe_dsa_9",
+                "question": "How would you detect and fix memory leaks in a React application?",
+                "difficulty": "hard",
+                "tags": [
+                    "react",
+                    "performance",
+                    "memory"
+                ]
+            },
+            {
+                "id": "fe_dsa_10",
+                "question": "Describe how you'd implement a throttle function and where it's useful in UI.",
+                "difficulty": "medium",
+                "tags": [
+                    "javascript",
+                    "performance"
+                ]
+            },
+            {
+                "id": "fe_dsa_11",
+                "question": "How would you implement a binary search on a sorted list in JavaScript?",
+                "difficulty": "medium",
+                "tags": [
+                    "algorithms",
+                    "search",
+                    "javascript"
+                ]
+            },
+            {
+                "id": "fe_dsa_12",
+                "question": "Explain the concept of closures with a practical React hook example.",
+                "difficulty": "medium",
+                "tags": [
+                    "javascript",
+                    "react",
+                    "closures"
+                ]
+            }
+        ],
+        "System Design": [
+            {
+                "id": "fe_sd_1",
+                "question": "How would you design a component library that scales across multiple products?",
+                "difficulty": "hard",
+                "tags": [
+                    "design-systems",
+                    "architecture",
+                    "react"
+                ]
+            },
+            {
+                "id": "fe_sd_2",
+                "question": "Design the frontend architecture for a real-time collaborative document editor.",
+                "difficulty": "hard",
+                "tags": [
+                    "websockets",
+                    "state-management",
+                    "architecture"
+                ]
+            },
+            {
+                "id": "fe_sd_3",
+                "question": "How would you build a performant infinite scroll or virtualized list for 100k items?",
+                "difficulty": "hard",
+                "tags": [
+                    "performance",
+                    "virtualization",
+                    "react"
+                ]
+            },
+            {
+                "id": "fe_sd_4",
+                "question": "How would you architect the state management for a large multi-page SPA?",
+                "difficulty": "hard",
+                "tags": [
+                    "state-management",
+                    "redux",
+                    "react"
+                ]
+            },
+            {
+                "id": "fe_sd_5",
+                "question": "Design a micro-frontend architecture. What are the trade-offs?",
+                "difficulty": "hard",
+                "tags": [
+                    "micro-frontends",
+                    "architecture",
+                    "webpack"
+                ]
+            },
+            {
+                "id": "fe_sd_6",
+                "question": "How would you implement client-side caching of API responses?",
+                "difficulty": "medium",
+                "tags": [
+                    "caching",
+                    "api",
+                    "react-query"
+                ]
+            },
+            {
+                "id": "fe_sd_7",
+                "question": "How do you design for offline-first functionality in a web app?",
+                "difficulty": "hard",
+                "tags": [
+                    "pwa",
+                    "service-workers",
+                    "offline"
+                ]
+            },
+            {
+                "id": "fe_sd_8",
+                "question": "What is your approach to optimizing Core Web Vitals on a content-heavy website?",
+                "difficulty": "medium",
+                "tags": [
+                    "performance",
+                    "seo",
+                    "lighthouse"
+                ]
+            },
+            {
+                "id": "fe_sd_9",
+                "question": "How would you implement a design system with dark mode support?",
+                "difficulty": "medium",
+                "tags": [
+                    "css",
+                    "design-tokens",
+                    "theming"
+                ]
+            },
+            {
+                "id": "fe_sd_10",
+                "question": "Design a chatbot UI widget that can be embedded on any website.",
+                "difficulty": "medium",
+                "tags": [
+                    "web-components",
+                    "iframe",
+                    "architecture"
+                ]
+            }
+        ],
+        "Behavioral": [
+            {
+                "id": "fe_beh_1",
+                "question": "Tell me about a time you had to refactor a legacy frontend codebase. How did you approach it?",
+                "difficulty": "medium",
+                "tags": [
+                    "refactoring",
+                    "leadership",
+                    "technical-debt"
+                ]
+            },
+            {
+                "id": "fe_beh_2",
+                "question": "Describe a challenging bug you fixed and how you debugged it.",
+                "difficulty": "easy",
+                "tags": [
+                    "debugging",
+                    "problem-solving"
+                ]
+            },
+            {
+                "id": "fe_beh_3",
+                "question": "How have you handled disagreements with a designer or product manager about UX decisions?",
+                "difficulty": "medium",
+                "tags": [
+                    "collaboration",
+                    "communication"
+                ]
+            },
+            {
+                "id": "fe_beh_4",
+                "question": "Tell me about a performance optimization you made that had measurable impact.",
+                "difficulty": "medium",
+                "tags": [
+                    "performance",
+                    "impact",
+                    "metrics"
+                ]
+            },
+            {
+                "id": "fe_beh_5",
+                "question": "Describe a time you had to deliver under a tight deadline on a frontend feature.",
+                "difficulty": "medium",
+                "tags": [
+                    "time-management",
+                    "delivery"
+                ]
+            },
+            {
+                "id": "fe_beh_6",
+                "question": "How do you stay current with rapidly evolving frontend technologies?",
+                "difficulty": "easy",
+                "tags": [
+                    "learning",
+                    "adaptability"
+                ]
+            },
+            {
+                "id": "fe_beh_7",
+                "question": "Tell me about a project you're most proud of from a frontend perspective.",
+                "difficulty": "easy",
+                "tags": [
+                    "achievement",
+                    "pride"
+                ]
+            },
+            {
+                "id": "fe_beh_8",
+                "question": "Have you ever had to advocate for accessibility improvements? Walk me through it.",
+                "difficulty": "medium",
+                "tags": [
+                    "accessibility",
+                    "advocacy",
+                    "a11y"
+                ]
+            },
+            {
+                "id": "fe_beh_9",
+                "question": "Describe a time you mentored a junior frontend developer.",
+                "difficulty": "medium",
+                "tags": [
+                    "mentoring",
+                    "leadership"
+                ]
+            },
+            {
+                "id": "fe_beh_10",
+                "question": "How do you approach cross-browser compatibility issues?",
+                "difficulty": "easy",
+                "tags": [
+                    "compatibility",
+                    "debugging",
+                    "css"
+                ]
+            }
+        ],
+        "Core Subject": [
+            {
+                "id": "fe_core_1",
+                "question": "Explain the browser's critical rendering path from HTML to painted pixels.",
+                "difficulty": "hard",
+                "tags": [
+                    "browser",
+                    "performance",
+                    "rendering"
+                ]
+            },
+            {
+                "id": "fe_core_2",
+                "question": "What is CORS and how does the browser enforce it? How would you configure it?",
+                "difficulty": "medium",
+                "tags": [
+                    "cors",
+                    "security",
+                    "http"
+                ]
+            },
+            {
+                "id": "fe_core_3",
+                "question": "Explain the difference between repaint, reflow, and compositing.",
+                "difficulty": "hard",
+                "tags": [
+                    "browser",
+                    "performance",
+                    "css"
+                ]
+            },
+            {
+                "id": "fe_core_4",
+                "question": "How do React hooks work internally? What is the rules-of-hooks constraint and why?",
+                "difficulty": "hard",
+                "tags": [
+                    "react",
+                    "hooks",
+                    "internals"
+                ]
+            },
+            {
+                "id": "fe_core_5",
+                "question": "What is the difference between SSR, SSG, ISR, and CSR in Next.js?",
+                "difficulty": "medium",
+                "tags": [
+                    "nextjs",
+                    "rendering",
+                    "performance"
+                ]
+            },
+            {
+                "id": "fe_core_6",
+                "question": "Explain JavaScript's event loop, call stack, and microtask queue.",
+                "difficulty": "hard",
+                "tags": [
+                    "javascript",
+                    "async",
+                    "concurrency"
+                ]
+            },
+            {
+                "id": "fe_core_7",
+                "question": "What is CSS specificity and how is it calculated?",
+                "difficulty": "easy",
+                "tags": [
+                    "css",
+                    "specificity"
+                ]
+            },
+            {
+                "id": "fe_core_8",
+                "question": "How does TypeScript's type system differ from JavaScript? What are generics?",
+                "difficulty": "medium",
+                "tags": [
+                    "typescript",
+                    "types",
+                    "generics"
+                ]
+            },
+            {
+                "id": "fe_core_9",
+                "question": "Explain how Webpack or Vite bundles assets. What is tree-shaking?",
+                "difficulty": "medium",
+                "tags": [
+                    "bundler",
+                    "webpack",
+                    "optimization"
+                ]
+            },
+            {
+                "id": "fe_core_10",
+                "question": "What are Web Workers, Service Workers, and Shared Workers? When would you use each?",
+                "difficulty": "hard",
+                "tags": [
+                    "web-apis",
+                    "performance",
+                    "pwa"
+                ]
+            }
+        ]
+    },
+    "Backend Developer": {
+        "DSA": [
+            {
+                "id": "be_dsa_1",
+                "question": "How would you implement a rate limiter for an API endpoint?",
+                "difficulty": "hard",
+                "tags": [
+                    "algorithms",
+                    "api",
+                    "concurrency"
+                ]
+            },
+            {
+                "id": "be_dsa_2",
+                "question": "Explain consistent hashing. Where is it used in distributed systems?",
+                "difficulty": "hard",
+                "tags": [
+                    "distributed",
+                    "hashing",
+                    "scalability"
+                ]
+            },
+            {
+                "id": "be_dsa_3",
+                "question": "How would you implement a job queue with priority levels?",
+                "difficulty": "medium",
+                "tags": [
+                    "queues",
+                    "heaps",
+                    "concurrency"
+                ]
+            },
+            {
+                "id": "be_dsa_4",
+                "question": "What is a trie? How would you use it to implement search autocomplete?",
+                "difficulty": "medium",
+                "tags": [
+                    "trie",
+                    "search",
+                    "nlp"
+                ]
+            },
+            {
+                "id": "be_dsa_5",
+                "question": "How do you approach deadlock detection and prevention in concurrent systems?",
+                "difficulty": "hard",
+                "tags": [
+                    "concurrency",
+                    "deadlock",
+                    "threading"
+                ]
+            },
+            {
+                "id": "be_dsa_6",
+                "question": "Implement a function to find the lowest common ancestor in a binary search tree.",
+                "difficulty": "medium",
+                "tags": [
+                    "trees",
+                    "algorithms"
+                ]
+            },
+            {
+                "id": "be_dsa_7",
+                "question": "How would you design a sliding window rate limiter?",
+                "difficulty": "hard",
+                "tags": [
+                    "algorithms",
+                    "sliding-window",
+                    "redis"
+                ]
+            },
+            {
+                "id": "be_dsa_8",
+                "question": "Explain the time and space complexity of common sorting algorithms. Which would you use for large datasets?",
+                "difficulty": "medium",
+                "tags": [
+                    "sorting",
+                    "complexity",
+                    "performance"
+                ]
+            },
+            {
+                "id": "be_dsa_9",
+                "question": "How would you implement pagination efficiently using cursors instead of offset?",
+                "difficulty": "medium",
+                "tags": [
+                    "pagination",
+                    "database",
+                    "api"
+                ]
+            },
+            {
+                "id": "be_dsa_10",
+                "question": "Describe how you'd detect a cycle in a directed graph. When is this useful in backend systems?",
+                "difficulty": "medium",
+                "tags": [
+                    "graphs",
+                    "algorithms",
+                    "dependency"
+                ]
+            }
+        ],
+        "System Design": [
+            {
+                "id": "be_sd_1",
+                "question": "Design a URL shortener like bit.ly that handles 100M URLs.",
+                "difficulty": "hard",
+                "tags": [
+                    "system-design",
+                    "scalability",
+                    "database"
+                ]
+            },
+            {
+                "id": "be_sd_2",
+                "question": "How would you design a distributed session management system?",
+                "difficulty": "hard",
+                "tags": [
+                    "sessions",
+                    "redis",
+                    "distributed"
+                ]
+            },
+            {
+                "id": "be_sd_3",
+                "question": "Design a notification system that supports email, push, and SMS. How do you handle retries?",
+                "difficulty": "hard",
+                "tags": [
+                    "messaging",
+                    "queues",
+                    "reliability"
+                ]
+            },
+            {
+                "id": "be_sd_4",
+                "question": "How would you architect a multi-tenant SaaS backend?",
+                "difficulty": "hard",
+                "tags": [
+                    "saas",
+                    "multi-tenant",
+                    "architecture"
+                ]
+            },
+            {
+                "id": "be_sd_5",
+                "question": "Design a real-time leaderboard for a gaming platform.",
+                "difficulty": "medium",
+                "tags": [
+                    "redis",
+                    "real-time",
+                    "ranking"
+                ]
+            },
+            {
+                "id": "be_sd_6",
+                "question": "How would you implement idempotent API endpoints?",
+                "difficulty": "medium",
+                "tags": [
+                    "api",
+                    "idempotency",
+                    "reliability"
+                ]
+            },
+            {
+                "id": "be_sd_7",
+                "question": "Design an event-driven microservices architecture using Kafka.",
+                "difficulty": "hard",
+                "tags": [
+                    "kafka",
+                    "microservices",
+                    "event-driven"
+                ]
+            },
+            {
+                "id": "be_sd_8",
+                "question": "How do you approach database sharding strategies?",
+                "difficulty": "hard",
+                "tags": [
+                    "sharding",
+                    "database",
+                    "scalability"
+                ]
+            },
+            {
+                "id": "be_sd_9",
+                "question": "Design a secure file upload and storage service.",
+                "difficulty": "medium",
+                "tags": [
+                    "s3",
+                    "security",
+                    "storage"
+                ]
+            },
+            {
+                "id": "be_sd_10",
+                "question": "How would you implement distributed tracing across microservices?",
+                "difficulty": "hard",
+                "tags": [
+                    "tracing",
+                    "observability",
+                    "microservices"
+                ]
+            }
+        ],
+        "Behavioral": [
+            {
+                "id": "be_beh_1",
+                "question": "Describe a time you had to debug a production outage. What was your approach?",
+                "difficulty": "medium",
+                "tags": [
+                    "debugging",
+                    "incident",
+                    "production"
+                ]
+            },
+            {
+                "id": "be_beh_2",
+                "question": "Tell me about a system you designed that didn't scale well. What did you learn?",
+                "difficulty": "medium",
+                "tags": [
+                    "learning",
+                    "scalability",
+                    "failure"
+                ]
+            },
+            {
+                "id": "be_beh_3",
+                "question": "How have you handled API versioning in a system used by external clients?",
+                "difficulty": "medium",
+                "tags": [
+                    "api",
+                    "versioning",
+                    "compatibility"
+                ]
+            },
+            {
+                "id": "be_beh_4",
+                "question": "Describe a time you improved database performance significantly.",
+                "difficulty": "medium",
+                "tags": [
+                    "database",
+                    "optimization",
+                    "impact"
+                ]
+            },
+            {
+                "id": "be_beh_5",
+                "question": "Have you ever had to introduce a new technology to your team? How did you get buy-in?",
+                "difficulty": "medium",
+                "tags": [
+                    "leadership",
+                    "communication",
+                    "technology"
+                ]
+            },
+            {
+                "id": "be_beh_6",
+                "question": "How do you approach code review? What do you look for?",
+                "difficulty": "easy",
+                "tags": [
+                    "code-review",
+                    "quality",
+                    "collaboration"
+                ]
+            },
+            {
+                "id": "be_beh_7",
+                "question": "Tell me about a time you had to make a trade-off between security and usability.",
+                "difficulty": "hard",
+                "tags": [
+                    "security",
+                    "trade-offs",
+                    "decision-making"
+                ]
+            },
+            {
+                "id": "be_beh_8",
+                "question": "Describe how you handle tech debt in a fast-moving product.",
+                "difficulty": "medium",
+                "tags": [
+                    "tech-debt",
+                    "prioritization",
+                    "planning"
+                ]
+            },
+            {
+                "id": "be_beh_9",
+                "question": "Have you worked with a difficult stakeholder? How did you manage the relationship?",
+                "difficulty": "medium",
+                "tags": [
+                    "stakeholders",
+                    "communication",
+                    "conflict"
+                ]
+            },
+            {
+                "id": "be_beh_10",
+                "question": "Tell me about a time you championed a backend best practice in your team.",
+                "difficulty": "medium",
+                "tags": [
+                    "leadership",
+                    "best-practices",
+                    "teamwork"
+                ]
+            }
+        ],
+        "Core Subject": [
+            {
+                "id": "be_core_1",
+                "question": "Explain the differences between REST, GraphQL, and gRPC. When would you choose each?",
+                "difficulty": "medium",
+                "tags": [
+                    "api",
+                    "rest",
+                    "graphql",
+                    "grpc"
+                ]
+            },
+            {
+                "id": "be_core_2",
+                "question": "What are ACID properties? How do they apply to NoSQL databases?",
+                "difficulty": "hard",
+                "tags": [
+                    "database",
+                    "acid",
+                    "nosql"
+                ]
+            },
+            {
+                "id": "be_core_3",
+                "question": "Explain CAP theorem and how it influences your architectural decisions.",
+                "difficulty": "hard",
+                "tags": [
+                    "distributed",
+                    "cap-theorem",
+                    "consistency"
+                ]
+            },
+            {
+                "id": "be_core_4",
+                "question": "What is the N+1 query problem? How do you detect and solve it in an ORM?",
+                "difficulty": "medium",
+                "tags": [
+                    "database",
+                    "orm",
+                    "performance"
+                ]
+            },
+            {
+                "id": "be_core_5",
+                "question": "Explain database indexing strategies. When can an index hurt performance?",
+                "difficulty": "hard",
+                "tags": [
+                    "database",
+                    "indexing",
+                    "performance"
+                ]
+            },
+            {
+                "id": "be_core_6",
+                "question": "What is JWT? What are its security risks and how do you mitigate them?",
+                "difficulty": "medium",
+                "tags": [
+                    "auth",
+                    "jwt",
+                    "security"
+                ]
+            },
+            {
+                "id": "be_core_7",
+                "question": "Explain event sourcing vs CQRS. What problems do they solve?",
+                "difficulty": "hard",
+                "tags": [
+                    "event-sourcing",
+                    "cqrs",
+                    "patterns"
+                ]
+            },
+            {
+                "id": "be_core_8",
+                "question": "How do connection pools work? How do you tune them?",
+                "difficulty": "medium",
+                "tags": [
+                    "database",
+                    "connection-pooling",
+                    "performance"
+                ]
+            },
+            {
+                "id": "be_core_9",
+                "question": "What is the difference between pessimistic and optimistic locking?",
+                "difficulty": "medium",
+                "tags": [
+                    "database",
+                    "locking",
+                    "concurrency"
+                ]
+            },
+            {
+                "id": "be_core_10",
+                "question": "How do you handle secrets and environment configuration securely in backend?",
+                "difficulty": "easy",
+                "tags": [
+                    "security",
+                    "devops",
+                    "configuration"
+                ]
+            }
+        ]
+    },
+    "Full Stack Developer": {
+        "DSA": [
+            {
+                "id": "fs_dsa_1",
+                "question": "How would you implement real-time collaborative editing with conflict resolution?",
+                "difficulty": "hard",
+                "tags": [
+                    "crdt",
+                    "real-time",
+                    "algorithms"
+                ]
+            },
+            {
+                "id": "fs_dsa_2",
+                "question": "Explain how you would implement full-text search in a web application.",
+                "difficulty": "medium",
+                "tags": [
+                    "search",
+                    "indexing",
+                    "elasticsearch"
+                ]
+            },
+            {
+                "id": "fs_dsa_3",
+                "question": "How would you design a data synchronization strategy for offline-capable apps?",
+                "difficulty": "hard",
+                "tags": [
+                    "sync",
+                    "offline",
+                    "algorithms"
+                ]
+            },
+            {
+                "id": "fs_dsa_4",
+                "question": "What data structure would you use for an autocomplete feature with millions of entries?",
+                "difficulty": "medium",
+                "tags": [
+                    "trie",
+                    "search",
+                    "performance"
+                ]
+            },
+            {
+                "id": "fs_dsa_5",
+                "question": "How would you implement an undo/redo feature in a web editor?",
+                "difficulty": "medium",
+                "tags": [
+                    "stack",
+                    "state-management",
+                    "algorithms"
+                ]
+            },
+            {
+                "id": "fs_dsa_6",
+                "question": "Describe how you'd implement lazy loading and pagination on both frontend and backend.",
+                "difficulty": "medium",
+                "tags": [
+                    "pagination",
+                    "lazy-loading",
+                    "performance"
+                ]
+            },
+            {
+                "id": "fs_dsa_7",
+                "question": "How would you reconcile optimistic updates when a server request fails?",
+                "difficulty": "hard",
+                "tags": [
+                    "state-management",
+                    "optimistic-ui",
+                    "error-handling"
+                ]
+            },
+            {
+                "id": "fs_dsa_8",
+                "question": "How do you approach efficient data fetching to avoid waterfalls in a full stack app?",
+                "difficulty": "medium",
+                "tags": [
+                    "graphql",
+                    "data-fetching",
+                    "performance"
+                ]
+            },
+            {
+                "id": "fs_dsa_9",
+                "question": "Describe the algorithm behind a feed ranking/recommendation system you've seen or built.",
+                "difficulty": "hard",
+                "tags": [
+                    "recommendation",
+                    "algorithms",
+                    "ranking"
+                ]
+            },
+            {
+                "id": "fs_dsa_10",
+                "question": "How would you design efficient batch processing for user-uploaded CSV files?",
+                "difficulty": "medium",
+                "tags": [
+                    "streaming",
+                    "batch-processing",
+                    "nodejs"
+                ]
+            }
+        ],
+        "System Design": [
+            {
+                "id": "fs_sd_1",
+                "question": "Design a full stack architecture for a social media platform with 10M users.",
+                "difficulty": "hard",
+                "tags": [
+                    "social-media",
+                    "scalability",
+                    "architecture"
+                ]
+            },
+            {
+                "id": "fs_sd_2",
+                "question": "How would you design end-to-end real-time notifications from DB change to browser?",
+                "difficulty": "hard",
+                "tags": [
+                    "websockets",
+                    "sse",
+                    "database",
+                    "real-time"
+                ]
+            },
+            {
+                "id": "fs_sd_3",
+                "question": "Design an e-commerce checkout flow with cart, payment, and inventory.",
+                "difficulty": "hard",
+                "tags": [
+                    "ecommerce",
+                    "transactions",
+                    "architecture"
+                ]
+            },
+            {
+                "id": "fs_sd_4",
+                "question": "How would you architect a multi-region deployment for a Next.js full stack app?",
+                "difficulty": "hard",
+                "tags": [
+                    "nextjs",
+                    "deployment",
+                    "cdn"
+                ]
+            },
+            {
+                "id": "fs_sd_5",
+                "question": "Design the architecture for a video streaming platform's upload pipeline.",
+                "difficulty": "hard",
+                "tags": [
+                    "video",
+                    "streaming",
+                    "s3",
+                    "transcoding"
+                ]
+            },
+            {
+                "id": "fs_sd_6",
+                "question": "How would you design role-based access control (RBAC) across frontend and backend?",
+                "difficulty": "medium",
+                "tags": [
+                    "rbac",
+                    "auth",
+                    "security"
+                ]
+            },
+            {
+                "id": "fs_sd_7",
+                "question": "Describe your approach to managing shared types between frontend and backend.",
+                "difficulty": "medium",
+                "tags": [
+                    "typescript",
+                    "monorepo",
+                    "api-contracts"
+                ]
+            },
+            {
+                "id": "fs_sd_8",
+                "question": "How do you design API contracts when frontend and backend teams work in parallel?",
+                "difficulty": "medium",
+                "tags": [
+                    "api-first",
+                    "openapi",
+                    "collaboration"
+                ]
+            },
+            {
+                "id": "fs_sd_9",
+                "question": "Design a monorepo structure for a full stack application shared across web and mobile.",
+                "difficulty": "medium",
+                "tags": [
+                    "monorepo",
+                    "turborepo",
+                    "nx"
+                ]
+            },
+            {
+                "id": "fs_sd_10",
+                "question": "How would you implement feature flags that work on both frontend and backend?",
+                "difficulty": "medium",
+                "tags": [
+                    "feature-flags",
+                    "deployment",
+                    "testing"
+                ]
+            }
+        ],
+        "Behavioral": [
+            {
+                "id": "fs_beh_1",
+                "question": "How do you coordinate between frontend needs and backend capabilities when building a new feature?",
+                "difficulty": "medium",
+                "tags": [
+                    "coordination",
+                    "collaboration",
+                    "full-stack"
+                ]
+            },
+            {
+                "id": "fs_beh_2",
+                "question": "Tell me about a time you owned a feature end-to-end. What did you learn?",
+                "difficulty": "easy",
+                "tags": [
+                    "ownership",
+                    "full-stack",
+                    "responsibility"
+                ]
+            },
+            {
+                "id": "fs_beh_3",
+                "question": "Describe how you prioritize when facing both frontend bugs and backend performance issues.",
+                "difficulty": "medium",
+                "tags": [
+                    "prioritization",
+                    "triage",
+                    "decision-making"
+                ]
+            },
+            {
+                "id": "fs_beh_4",
+                "question": "How have you approached API design to make it developer-friendly for the frontend?",
+                "difficulty": "medium",
+                "tags": [
+                    "api-design",
+                    "dx",
+                    "collaboration"
+                ]
+            },
+            {
+                "id": "fs_beh_5",
+                "question": "Tell me about a time a full stack feature required more complexity than expected.",
+                "difficulty": "medium",
+                "tags": [
+                    "complexity",
+                    "planning",
+                    "estimation"
+                ]
+            },
+            {
+                "id": "fs_beh_6",
+                "question": "How do you handle context switching between frontend and backend tasks?",
+                "difficulty": "easy",
+                "tags": [
+                    "productivity",
+                    "full-stack"
+                ]
+            },
+            {
+                "id": "fs_beh_7",
+                "question": "Have you ever had to debug an issue that spanned both frontend and backend? Walk me through it.",
+                "difficulty": "medium",
+                "tags": [
+                    "debugging",
+                    "tracing",
+                    "problem-solving"
+                ]
+            },
+            {
+                "id": "fs_beh_8",
+                "question": "Describe a time you significantly reduced the time-to-feature by owning both ends.",
+                "difficulty": "medium",
+                "tags": [
+                    "impact",
+                    "efficiency",
+                    "full-stack"
+                ]
+            },
+            {
+                "id": "fs_beh_9",
+                "question": "How do you document your systems for both frontend consumers and backend maintainers?",
+                "difficulty": "easy",
+                "tags": [
+                    "documentation",
+                    "communication"
+                ]
+            },
+            {
+                "id": "fs_beh_10",
+                "question": "Tell me about a decision where you chose simplicity over a more technically elegant solution.",
+                "difficulty": "medium",
+                "tags": [
+                    "trade-offs",
+                    "pragmatism",
+                    "decision-making"
+                ]
+            }
+        ],
+        "Core Subject": [
+            {
+                "id": "fs_core_1",
+                "question": "What is the same-origin policy and how does it interact with CORS?",
+                "difficulty": "medium",
+                "tags": [
+                    "security",
+                    "cors",
+                    "http"
+                ]
+            },
+            {
+                "id": "fs_core_2",
+                "question": "Explain how HTTP/2 and HTTP/3 improve performance over HTTP/1.1.",
+                "difficulty": "medium",
+                "tags": [
+                    "http",
+                    "performance",
+                    "networking"
+                ]
+            },
+            {
+                "id": "fs_core_3",
+                "question": "What are the key differences between cookies, localStorage, and sessionStorage? Security implications?",
+                "difficulty": "easy",
+                "tags": [
+                    "storage",
+                    "security",
+                    "browser"
+                ]
+            },
+            {
+                "id": "fs_core_4",
+                "question": "How does OAuth 2.0 work? Explain the authorization code flow.",
+                "difficulty": "hard",
+                "tags": [
+                    "oauth",
+                    "auth",
+                    "security"
+                ]
+            },
+            {
+                "id": "fs_core_5",
+                "question": "Explain the difference between monolithic and microservices architectures. Trade-offs?",
+                "difficulty": "medium",
+                "tags": [
+                    "architecture",
+                    "microservices",
+                    "trade-offs"
+                ]
+            },
+            {
+                "id": "fs_core_6",
+                "question": "What is server-side rendering hydration? What are its pitfalls?",
+                "difficulty": "hard",
+                "tags": [
+                    "ssr",
+                    "react",
+                    "hydration"
+                ]
+            },
+            {
+                "id": "fs_core_7",
+                "question": "How does DNS resolution work from typing a URL to loading a page?",
+                "difficulty": "medium",
+                "tags": [
+                    "dns",
+                    "networking",
+                    "http"
+                ]
+            },
+            {
+                "id": "fs_core_8",
+                "question": "Explain how WebSockets differ from server-sent events and long polling.",
+                "difficulty": "medium",
+                "tags": [
+                    "websockets",
+                    "sse",
+                    "real-time"
+                ]
+            },
+            {
+                "id": "fs_core_9",
+                "question": "What is memoization and how does it apply in both React (useMemo) and backend caching?",
+                "difficulty": "medium",
+                "tags": [
+                    "memoization",
+                    "caching",
+                    "performance"
+                ]
+            },
+            {
+                "id": "fs_core_10",
+                "question": "How does containerization (Docker) benefit a full stack development workflow?",
+                "difficulty": "easy",
+                "tags": [
+                    "docker",
+                    "devops",
+                    "deployment"
+                ]
+            }
+        ]
+    },
+    "Data Analyst": {
+        "DSA": [
+            {
+                "id": "da_dsa_1",
+                "question": "How would you efficiently compute a rolling average on a streaming dataset?",
+                "difficulty": "medium",
+                "tags": [
+                    "streaming",
+                    "algorithms",
+                    "statistics"
+                ]
+            },
+            {
+                "id": "da_dsa_2",
+                "question": "Explain how you'd detect outliers algorithmically in a large dataset.",
+                "difficulty": "medium",
+                "tags": [
+                    "statistics",
+                    "outliers",
+                    "algorithms"
+                ]
+            },
+            {
+                "id": "da_dsa_3",
+                "question": "How would you implement groupBy and aggregation from scratch without pandas?",
+                "difficulty": "medium",
+                "tags": [
+                    "data-structures",
+                    "groupby",
+                    "python"
+                ]
+            },
+            {
+                "id": "da_dsa_4",
+                "question": "Describe your approach to sampling a large dataset fairly.",
+                "difficulty": "medium",
+                "tags": [
+                    "sampling",
+                    "statistics",
+                    "data"
+                ]
+            },
+            {
+                "id": "da_dsa_5",
+                "question": "How would you join two large datasets efficiently when they don't fit in memory?",
+                "difficulty": "hard",
+                "tags": [
+                    "join",
+                    "streaming",
+                    "big-data"
+                ]
+            },
+            {
+                "id": "da_dsa_6",
+                "question": "How do you handle missing values in a dataset algorithmically?",
+                "difficulty": "easy",
+                "tags": [
+                    "data-cleaning",
+                    "imputation",
+                    "statistics"
+                ]
+            },
+            {
+                "id": "da_dsa_7",
+                "question": "What are hash maps used for in data analytics pipelines?",
+                "difficulty": "easy",
+                "tags": [
+                    "data-structures",
+                    "hash-maps",
+                    "etl"
+                ]
+            },
+            {
+                "id": "da_dsa_8",
+                "question": "Explain time complexity trade-offs when working with large Pandas DataFrames.",
+                "difficulty": "medium",
+                "tags": [
+                    "pandas",
+                    "performance",
+                    "python"
+                ]
+            },
+            {
+                "id": "da_dsa_9",
+                "question": "How would you de-duplicate a large dataset without loading it all into memory?",
+                "difficulty": "hard",
+                "tags": [
+                    "deduplication",
+                    "streaming",
+                    "algorithms"
+                ]
+            },
+            {
+                "id": "da_dsa_10",
+                "question": "Describe how sorted merge of multiple sorted data streams works.",
+                "difficulty": "hard",
+                "tags": [
+                    "merge",
+                    "heaps",
+                    "streaming"
+                ]
+            }
+        ],
+        "System Design": [
+            {
+                "id": "da_sd_1",
+                "question": "Design an ETL pipeline to ingest 10GB of daily sales data into an analytics warehouse.",
+                "difficulty": "hard",
+                "tags": [
+                    "etl",
+                    "warehouse",
+                    "pipeline"
+                ]
+            },
+            {
+                "id": "da_sd_2",
+                "question": "How would you design a real-time analytics dashboard for an e-commerce platform?",
+                "difficulty": "hard",
+                "tags": [
+                    "real-time",
+                    "dashboard",
+                    "streaming"
+                ]
+            },
+            {
+                "id": "da_sd_3",
+                "question": "Design a data quality monitoring system for a production data pipeline.",
+                "difficulty": "hard",
+                "tags": [
+                    "data-quality",
+                    "monitoring",
+                    "pipeline"
+                ]
+            },
+            {
+                "id": "da_sd_4",
+                "question": "How would you architect a data lake for an organisation processing multi-source data?",
+                "difficulty": "hard",
+                "tags": [
+                    "data-lake",
+                    "s3",
+                    "architecture"
+                ]
+            },
+            {
+                "id": "da_sd_5",
+                "question": "Design an A/B testing analysis pipeline from event collection to significance testing.",
+                "difficulty": "hard",
+                "tags": [
+                    "ab-testing",
+                    "statistics",
+                    "pipeline"
+                ]
+            },
+            {
+                "id": "da_sd_6",
+                "question": "How would you build a self-serve analytics platform for non-technical business users?",
+                "difficulty": "medium",
+                "tags": [
+                    "bi",
+                    "self-serve",
+                    "ux"
+                ]
+            },
+            {
+                "id": "da_sd_7",
+                "question": "Design a system to track and report on KPIs in near real-time.",
+                "difficulty": "medium",
+                "tags": [
+                    "kpi",
+                    "kafka",
+                    "dashboard"
+                ]
+            },
+            {
+                "id": "da_sd_8",
+                "question": "How would you implement caching for frequently-run expensive SQL analytical queries?",
+                "difficulty": "medium",
+                "tags": [
+                    "caching",
+                    "sql",
+                    "performance"
+                ]
+            },
+            {
+                "id": "da_sd_9",
+                "question": "Design a data lineage tracking system for a complex analytics pipeline.",
+                "difficulty": "hard",
+                "tags": [
+                    "lineage",
+                    "metadata",
+                    "governance"
+                ]
+            },
+            {
+                "id": "da_sd_10",
+                "question": "How would you architect a GDPR-compliant data deletion pipeline?",
+                "difficulty": "hard",
+                "tags": [
+                    "gdpr",
+                    "compliance",
+                    "deletion"
+                ]
+            }
+        ],
+        "Behavioral": [
+            {
+                "id": "da_beh_1",
+                "question": "Tell me about a time your data analysis changed a key business decision.",
+                "difficulty": "medium",
+                "tags": [
+                    "impact",
+                    "business",
+                    "analysis"
+                ]
+            },
+            {
+                "id": "da_beh_2",
+                "question": "Describe a time you found an error in a dataset that was already being used. What did you do?",
+                "difficulty": "medium",
+                "tags": [
+                    "data-quality",
+                    "integrity",
+                    "communication"
+                ]
+            },
+            {
+                "id": "da_beh_3",
+                "question": "How do you explain complex analytical findings to non-technical stakeholders?",
+                "difficulty": "easy",
+                "tags": [
+                    "communication",
+                    "storytelling",
+                    "visualization"
+                ]
+            },
+            {
+                "id": "da_beh_4",
+                "question": "Tell me about a time you had to work with incomplete or messy data. How did you handle it?",
+                "difficulty": "medium",
+                "tags": [
+                    "data-cleaning",
+                    "problem-solving"
+                ]
+            },
+            {
+                "id": "da_beh_5",
+                "question": "Describe a project where you had to collaborate across multiple teams for data access.",
+                "difficulty": "medium",
+                "tags": [
+                    "collaboration",
+                    "data-governance",
+                    "stakeholders"
+                ]
+            },
+            {
+                "id": "da_beh_6",
+                "question": "Have you ever had to challenge an assumption that leadership held based on incorrect data?",
+                "difficulty": "hard",
+                "tags": [
+                    "courage",
+                    "advocacy",
+                    "communication"
+                ]
+            },
+            {
+                "id": "da_beh_7",
+                "question": "Tell me about a time you automated a manual reporting task. What was the impact?",
+                "difficulty": "easy",
+                "tags": [
+                    "automation",
+                    "efficiency",
+                    "impact"
+                ]
+            },
+            {
+                "id": "da_beh_8",
+                "question": "How do you prioritize multiple analytics requests from different teams simultaneously?",
+                "difficulty": "medium",
+                "tags": [
+                    "prioritization",
+                    "time-management"
+                ]
+            },
+            {
+                "id": "da_beh_9",
+                "question": "Describe a time you used data to identify a risk or opportunity that wasn't obvious.",
+                "difficulty": "medium",
+                "tags": [
+                    "insight",
+                    "problem-solving",
+                    "impact"
+                ]
+            },
+            {
+                "id": "da_beh_10",
+                "question": "Tell me about a time you had to define a metric from scratch. How did you validate it?",
+                "difficulty": "medium",
+                "tags": [
+                    "metrics",
+                    "validation",
+                    "design"
+                ]
+            }
+        ],
+        "Core Subject": [
+            {
+                "id": "da_core_1",
+                "question": "Explain the difference between OLAP and OLTP systems. When would you use each?",
+                "difficulty": "medium",
+                "tags": [
+                    "olap",
+                    "oltp",
+                    "database"
+                ]
+            },
+            {
+                "id": "da_core_2",
+                "question": "What is a star schema vs snowflake schema in data warehousing?",
+                "difficulty": "medium",
+                "tags": [
+                    "data-warehouse",
+                    "schema",
+                    "modeling"
+                ]
+            },
+            {
+                "id": "da_core_3",
+                "question": "Explain what p-value means and how to interpret it correctly.",
+                "difficulty": "medium",
+                "tags": [
+                    "statistics",
+                    "hypothesis-testing",
+                    "p-value"
+                ]
+            },
+            {
+                "id": "da_core_4",
+                "question": "What is the difference between regression and classification in ML? Give business examples.",
+                "difficulty": "easy",
+                "tags": [
+                    "machine-learning",
+                    "regression",
+                    "classification"
+                ]
+            },
+            {
+                "id": "da_core_5",
+                "question": "How do you detect and handle multicollinearity in a regression model?",
+                "difficulty": "hard",
+                "tags": [
+                    "regression",
+                    "statistics",
+                    "modeling"
+                ]
+            },
+            {
+                "id": "da_core_6",
+                "question": "Explain Window functions in SQL. Give an example of ranking with partitions.",
+                "difficulty": "medium",
+                "tags": [
+                    "sql",
+                    "window-functions",
+                    "analytics"
+                ]
+            },
+            {
+                "id": "da_core_7",
+                "question": "What is data normalisation and when should you avoid it in analytics?",
+                "difficulty": "medium",
+                "tags": [
+                    "normalization",
+                    "data-modeling",
+                    "analytics"
+                ]
+            },
+            {
+                "id": "da_core_8",
+                "question": "What are cohort analysis and funnel analysis? When are they used?",
+                "difficulty": "easy",
+                "tags": [
+                    "analytics",
+                    "cohort",
+                    "funnel"
+                ]
+            },
+            {
+                "id": "da_core_9",
+                "question": "How do you ensure statistical validity when running A/B tests?",
+                "difficulty": "hard",
+                "tags": [
+                    "ab-testing",
+                    "statistics",
+                    "validity"
+                ]
+            },
+            {
+                "id": "da_core_10",
+                "question": "What causes a data pipeline to be slow? How do you diagnose and fix it?",
+                "difficulty": "medium",
+                "tags": [
+                    "performance",
+                    "pipeline",
+                    "optimization"
+                ]
+            }
+        ]
+    },
+    "Machine Learning Engineer": {
+        "DSA": [
+            {
+                "id": "ml_dsa_1",
+                "question": "How would you implement K-means clustering from scratch?",
+                "difficulty": "medium",
+                "tags": [
+                    "clustering",
+                    "algorithms",
+                    "ml"
+                ]
+            },
+            {
+                "id": "ml_dsa_2",
+                "question": "Explain backpropagation. How are gradients computed in a neural network?",
+                "difficulty": "hard",
+                "tags": [
+                    "deep-learning",
+                    "backpropagation",
+                    "gradients"
+                ]
+            },
+            {
+                "id": "ml_dsa_3",
+                "question": "How would you implement a basic decision tree classifier?",
+                "difficulty": "medium",
+                "tags": [
+                    "decision-tree",
+                    "classification",
+                    "algorithms"
+                ]
+            },
+            {
+                "id": "ml_dsa_4",
+                "question": "Describe the algorithm behind gradient descent. What are its variants?",
+                "difficulty": "hard",
+                "tags": [
+                    "optimization",
+                    "gradient-descent",
+                    "ml"
+                ]
+            },
+            {
+                "id": "ml_dsa_5",
+                "question": "How would you vectorise a naive text search to make it semantically aware?",
+                "difficulty": "hard",
+                "tags": [
+                    "embeddings",
+                    "nlp",
+                    "search"
+                ]
+            },
+            {
+                "id": "ml_dsa_6",
+                "question": "How do you efficiently compute cosine similarity for millions of embeddings?",
+                "difficulty": "hard",
+                "tags": [
+                    "embeddings",
+                    "similarity",
+                    "performance"
+                ]
+            },
+            {
+                "id": "ml_dsa_7",
+                "question": "Implement a simple softmax classifier using NumPy.",
+                "difficulty": "medium",
+                "tags": [
+                    "numpy",
+                    "classification",
+                    "softmax"
+                ]
+            },
+            {
+                "id": "ml_dsa_8",
+                "question": "How would you implement a feature selection algorithm based on information gain?",
+                "difficulty": "hard",
+                "tags": [
+                    "feature-selection",
+                    "information-theory",
+                    "algorithms"
+                ]
+            },
+            {
+                "id": "ml_dsa_9",
+                "question": "How do attention mechanisms work in transformer models?",
+                "difficulty": "hard",
+                "tags": [
+                    "transformers",
+                    "attention",
+                    "nlp"
+                ]
+            },
+            {
+                "id": "ml_dsa_10",
+                "question": "How would you build an efficient nearest-neighbour search for real-time inference?",
+                "difficulty": "hard",
+                "tags": [
+                    "knn",
+                    "faiss",
+                    "performance"
+                ]
+            }
+        ],
+        "System Design": [
+            {
+                "id": "ml_sd_1",
+                "question": "Design an ML feature store. What are the key components?",
+                "difficulty": "hard",
+                "tags": [
+                    "feature-store",
+                    "mlops",
+                    "architecture"
+                ]
+            },
+            {
+                "id": "ml_sd_2",
+                "question": "Design a real-time ML inference system for personalised recommendations.",
+                "difficulty": "hard",
+                "tags": [
+                    "inference",
+                    "recommendations",
+                    "latency"
+                ]
+            },
+            {
+                "id": "ml_sd_3",
+                "question": "How would you design an automated model retraining pipeline with drift detection?",
+                "difficulty": "hard",
+                "tags": [
+                    "mlops",
+                    "drift",
+                    "retraining"
+                ]
+            },
+            {
+                "id": "ml_sd_4",
+                "question": "Design a shadow deployment strategy to A/B test ML models safely.",
+                "difficulty": "hard",
+                "tags": [
+                    "deployment",
+                    "ab-testing",
+                    "mlops"
+                ]
+            },
+            {
+                "id": "ml_sd_5",
+                "question": "How would you build an ML platform for data scientists to train and deploy models?",
+                "difficulty": "hard",
+                "tags": [
+                    "ml-platform",
+                    "mlops",
+                    "developer-tools"
+                ]
+            },
+            {
+                "id": "ml_sd_6",
+                "question": "Design a human-in-the-loop labelling system for a new ML use case.",
+                "difficulty": "medium",
+                "tags": [
+                    "labelling",
+                    "active-learning",
+                    "annotation"
+                ]
+            },
+            {
+                "id": "ml_sd_7",
+                "question": "How would you monitor a production ML model for performance degradation?",
+                "difficulty": "medium",
+                "tags": [
+                    "monitoring",
+                    "observability",
+                    "mlops"
+                ]
+            },
+            {
+                "id": "ml_sd_8",
+                "question": "Design the infrastructure for serving an LLM at scale with low latency.",
+                "difficulty": "hard",
+                "tags": [
+                    "llm",
+                    "serving",
+                    "infrastructure"
+                ]
+            },
+            {
+                "id": "ml_sd_9",
+                "question": "How would you architect a batch scoring pipeline for 10M users nightly?",
+                "difficulty": "hard",
+                "tags": [
+                    "batch-scoring",
+                    "spark",
+                    "pipeline"
+                ]
+            },
+            {
+                "id": "ml_sd_10",
+                "question": "How would you build an experiment tracking system for ML teams?",
+                "difficulty": "medium",
+                "tags": [
+                    "mlflow",
+                    "experiment-tracking",
+                    "mlops"
+                ]
+            }
+        ],
+        "Behavioral": [
+            {
+                "id": "ml_beh_1",
+                "question": "Tell me about a model you built that didn't perform as expected in production. What happened?",
+                "difficulty": "medium",
+                "tags": [
+                    "failure",
+                    "learning",
+                    "production"
+                ]
+            },
+            {
+                "id": "ml_beh_2",
+                "question": "Describe a time you had to explain an ML model's prediction to a non-technical audience.",
+                "difficulty": "easy",
+                "tags": [
+                    "communication",
+                    "explainability"
+                ]
+            },
+            {
+                "id": "ml_beh_3",
+                "question": "How have you dealt with ethical concerns or bias in an ML model you worked on?",
+                "difficulty": "hard",
+                "tags": [
+                    "ethics",
+                    "bias",
+                    "fairness"
+                ]
+            },
+            {
+                "id": "ml_beh_4",
+                "question": "Tell me about a time you had to balance model accuracy with inference speed.",
+                "difficulty": "medium",
+                "tags": [
+                    "trade-offs",
+                    "optimization",
+                    "decision-making"
+                ]
+            },
+            {
+                "id": "ml_beh_5",
+                "question": "Describe a time you collaborated with data engineers to build a training data pipeline.",
+                "difficulty": "medium",
+                "tags": [
+                    "collaboration",
+                    "data-engineering"
+                ]
+            },
+            {
+                "id": "ml_beh_6",
+                "question": "How do you decide when a model is good enough to ship?",
+                "difficulty": "medium",
+                "tags": [
+                    "decision-making",
+                    "metrics",
+                    "pragmatism"
+                ]
+            },
+            {
+                "id": "ml_beh_7",
+                "question": "Tell me about an ML project where the data turned out to be the biggest challenge.",
+                "difficulty": "medium",
+                "tags": [
+                    "data",
+                    "problem-solving",
+                    "ml"
+                ]
+            },
+            {
+                "id": "ml_beh_8",
+                "question": "Describe how you've contributed to making ML more accessible to less experienced team members.",
+                "difficulty": "medium",
+                "tags": [
+                    "mentoring",
+                    "documentation",
+                    "enablement"
+                ]
+            },
+            {
+                "id": "ml_beh_9",
+                "question": "Have you ever pushed back on a business request for a model on ethical or technical grounds?",
+                "difficulty": "hard",
+                "tags": [
+                    "integrity",
+                    "communication",
+                    "ethics"
+                ]
+            },
+            {
+                "id": "ml_beh_10",
+                "question": "Tell me about a time you had to quickly learn a new ML technique to solve a problem.",
+                "difficulty": "easy",
+                "tags": [
+                    "learning",
+                    "adaptability"
+                ]
+            }
+        ],
+        "Core Subject": [
+            {
+                "id": "ml_core_1",
+                "question": "Explain the bias-variance tradeoff. How does it relate to model selection?",
+                "difficulty": "medium",
+                "tags": [
+                    "bias-variance",
+                    "model-selection",
+                    "statistics"
+                ]
+            },
+            {
+                "id": "ml_core_2",
+                "question": "What is regularization? Compare L1 and L2 regularization.",
+                "difficulty": "medium",
+                "tags": [
+                    "regularization",
+                    "l1",
+                    "l2",
+                    "overfitting"
+                ]
+            },
+            {
+                "id": "ml_core_3",
+                "question": "What are precision and recall? When would you optimise for one over the other?",
+                "difficulty": "easy",
+                "tags": [
+                    "evaluation",
+                    "precision",
+                    "recall"
+                ]
+            },
+            {
+                "id": "ml_core_4",
+                "question": "What is cross-validation and why is it important?",
+                "difficulty": "easy",
+                "tags": [
+                    "cross-validation",
+                    "evaluation",
+                    "overfitting"
+                ]
+            },
+            {
+                "id": "ml_core_5",
+                "question": "Explain what the vanishing gradient problem is and how it's addressed.",
+                "difficulty": "hard",
+                "tags": [
+                    "deep-learning",
+                    "gradients",
+                    "lstm"
+                ]
+            },
+            {
+                "id": "ml_core_6",
+                "question": "What is transfer learning? How does fine-tuning work?",
+                "difficulty": "medium",
+                "tags": [
+                    "transfer-learning",
+                    "fine-tuning",
+                    "nlp"
+                ]
+            },
+            {
+                "id": "ml_core_7",
+                "question": "Explain the difference between supervised, unsupervised, and reinforcement learning.",
+                "difficulty": "easy",
+                "tags": [
+                    "ml-types",
+                    "paradigms"
+                ]
+            },
+            {
+                "id": "ml_core_8",
+                "question": "What is RLHF (Reinforcement Learning from Human Feedback) and why is it used in LLMs?",
+                "difficulty": "hard",
+                "tags": [
+                    "rlhf",
+                    "llm",
+                    "alignment"
+                ]
+            },
+            {
+                "id": "ml_core_9",
+                "question": "How does PCA work and when would you use it?",
+                "difficulty": "medium",
+                "tags": [
+                    "pca",
+                    "dimensionality-reduction",
+                    "statistics"
+                ]
+            },
+            {
+                "id": "ml_core_10",
+                "question": "What is model quantization and how does it help with deployment?",
+                "difficulty": "medium",
+                "tags": [
+                    "quantization",
+                    "inference",
+                    "optimization"
+                ]
+            }
+        ]
+    },
+    "DevOps Engineer": {
+        "DSA": [
+            {
+                "id": "do_dsa_1",
+                "question": "How would you implement a circular buffer for a log aggregation service?",
+                "difficulty": "medium",
+                "tags": [
+                    "data-structures",
+                    "logging",
+                    "buffers"
+                ]
+            },
+            {
+                "id": "do_dsa_2",
+                "question": "How would you detect a dependency cycle in a CI/CD pipeline job graph?",
+                "difficulty": "medium",
+                "tags": [
+                    "graphs",
+                    "dag",
+                    "cicd"
+                ]
+            },
+            {
+                "id": "do_dsa_3",
+                "question": "Describe an algorithm for optimally scheduling parallel CI jobs.",
+                "difficulty": "hard",
+                "tags": [
+                    "scheduling",
+                    "parallelism",
+                    "algorithms"
+                ]
+            },
+            {
+                "id": "do_dsa_4",
+                "question": "How would you implement health-check logic with exponential backoff retry?",
+                "difficulty": "medium",
+                "tags": [
+                    "retry",
+                    "algorithms",
+                    "reliability"
+                ]
+            },
+            {
+                "id": "do_dsa_5",
+                "question": "How do consistent hashing rings work for load balancing across servers?",
+                "difficulty": "hard",
+                "tags": [
+                    "load-balancing",
+                    "hashing",
+                    "distributed"
+                ]
+            },
+            {
+                "id": "do_dsa_6",
+                "question": "How would you implement a token bucket algorithm for infrastructure rate limiting?",
+                "difficulty": "hard",
+                "tags": [
+                    "rate-limiting",
+                    "algorithms",
+                    "cloudflare"
+                ]
+            },
+            {
+                "id": "do_dsa_7",
+                "question": "Describe how leader election works in distributed systems (e.g., etcd, Zookeeper).",
+                "difficulty": "hard",
+                "tags": [
+                    "distributed",
+                    "consensus",
+                    "raft"
+                ]
+            },
+            {
+                "id": "do_dsa_8",
+                "question": "How would you design a fast rollback mechanism for failed deployments?",
+                "difficulty": "medium",
+                "tags": [
+                    "deployment",
+                    "rollback",
+                    "algorithms"
+                ]
+            },
+            {
+                "id": "do_dsa_9",
+                "question": "How does container orchestration (k8s scheduler) decide which node to place a pod on?",
+                "difficulty": "hard",
+                "tags": [
+                    "kubernetes",
+                    "scheduling",
+                    "algorithms"
+                ]
+            },
+            {
+                "id": "do_dsa_10",
+                "question": "How would you implement an efficient log search across petabytes of distributed logs?",
+                "difficulty": "hard",
+                "tags": [
+                    "search",
+                    "elasticsearch",
+                    "logs"
+                ]
+            }
+        ],
+        "System Design": [
+            {
+                "id": "do_sd_1",
+                "question": "Design a CI/CD pipeline for a microservices platform with 50 services.",
+                "difficulty": "hard",
+                "tags": [
+                    "cicd",
+                    "microservices",
+                    "automation"
+                ]
+            },
+            {
+                "id": "do_sd_2",
+                "question": "How would you design a zero-downtime blue-green deployment strategy?",
+                "difficulty": "medium",
+                "tags": [
+                    "deployment",
+                    "blue-green",
+                    "reliability"
+                ]
+            },
+            {
+                "id": "do_sd_3",
+                "question": "Design an infrastructure as code setup for a multi-environment cloud deployment.",
+                "difficulty": "hard",
+                "tags": [
+                    "terraform",
+                    "iac",
+                    "aws"
+                ]
+            },
+            {
+                "id": "do_sd_4",
+                "question": "How would you architect a centralised logging, metrics, and alerting stack?",
+                "difficulty": "hard",
+                "tags": [
+                    "observability",
+                    "elk",
+                    "prometheus"
+                ]
+            },
+            {
+                "id": "do_sd_5",
+                "question": "Design a disaster recovery plan for a production Kubernetes cluster.",
+                "difficulty": "hard",
+                "tags": [
+                    "disaster-recovery",
+                    "kubernetes",
+                    "rto"
+                ]
+            },
+            {
+                "id": "do_sd_6",
+                "question": "How would you handle secrets management across multiple environments and services?",
+                "difficulty": "medium",
+                "tags": [
+                    "secrets",
+                    "vault",
+                    "security"
+                ]
+            },
+            {
+                "id": "do_sd_7",
+                "question": "Design a container image build and promotion pipeline across dev, staging, and prod.",
+                "difficulty": "medium",
+                "tags": [
+                    "docker",
+                    "cicd",
+                    "promotion"
+                ]
+            },
+            {
+                "id": "do_sd_8",
+                "question": "How would you design auto-scaling for a stateful application on Kubernetes?",
+                "difficulty": "hard",
+                "tags": [
+                    "kubernetes",
+                    "auto-scaling",
+                    "stateful"
+                ]
+            },
+            {
+                "id": "do_sd_9",
+                "question": "Design a multi-cloud network topology for fault isolation and redundancy.",
+                "difficulty": "hard",
+                "tags": [
+                    "multi-cloud",
+                    "networking",
+                    "reliability"
+                ]
+            },
+            {
+                "id": "do_sd_10",
+                "question": "How would you implement drift detection for IaC resources?",
+                "difficulty": "medium",
+                "tags": [
+                    "terraform",
+                    "drift",
+                    "iac"
+                ]
+            }
+        ],
+        "Behavioral": [
+            {
+                "id": "do_beh_1",
+                "question": "Tell me about a production incident you led the response for. What was your process?",
+                "difficulty": "medium",
+                "tags": [
+                    "incident-response",
+                    "leadership",
+                    "production"
+                ]
+            },
+            {
+                "id": "do_beh_2",
+                "question": "Describe a time you reduced deployment risk significantly. What changed?",
+                "difficulty": "medium",
+                "tags": [
+                    "deployment",
+                    "risk",
+                    "improvement"
+                ]
+            },
+            {
+                "id": "do_beh_3",
+                "question": "How have you built a culture of 'you build it, you run it' in an engineering team?",
+                "difficulty": "hard",
+                "tags": [
+                    "culture",
+                    "devops",
+                    "leadership"
+                ]
+            },
+            {
+                "id": "do_beh_4",
+                "question": "Tell me about a time you had to migrate a critical service with zero downtime.",
+                "difficulty": "hard",
+                "tags": [
+                    "migration",
+                    "reliability",
+                    "planning"
+                ]
+            },
+            {
+                "id": "do_beh_5",
+                "question": "Describe a time you automated something that saved significant engineering time.",
+                "difficulty": "easy",
+                "tags": [
+                    "automation",
+                    "impact",
+                    "efficiency"
+                ]
+            },
+            {
+                "id": "do_beh_6",
+                "question": "How have you improved observability in a system where the team was flying blind?",
+                "difficulty": "medium",
+                "tags": [
+                    "observability",
+                    "monitoring",
+                    "improvement"
+                ]
+            },
+            {
+                "id": "do_beh_7",
+                "question": "Tell me about a time infrastructure costs were too high and how you reduced them.",
+                "difficulty": "medium",
+                "tags": [
+                    "cost-optimisation",
+                    "cloud",
+                    "efficiency"
+                ]
+            },
+            {
+                "id": "do_beh_8",
+                "question": "Describe how you've balanced speed of deployment with stability.",
+                "difficulty": "medium",
+                "tags": [
+                    "trade-offs",
+                    "ci-cd",
+                    "reliability"
+                ]
+            },
+            {
+                "id": "do_beh_9",
+                "question": "Have you ever pushed back on an engineer's approach for reliability reasons? Walk me through it.",
+                "difficulty": "medium",
+                "tags": [
+                    "advocacy",
+                    "reliability",
+                    "communication"
+                ]
+            },
+            {
+                "id": "do_beh_10",
+                "question": "How do you conduct post-mortems and ensure follow-up actions actually get done?",
+                "difficulty": "medium",
+                "tags": [
+                    "post-mortem",
+                    "process",
+                    "improvement"
+                ]
+            }
+        ],
+        "Core Subject": [
+            {
+                "id": "do_core_1",
+                "question": "What is the difference between a Docker container and a VM? When would you prefer each?",
+                "difficulty": "easy",
+                "tags": [
+                    "docker",
+                    "virtualization",
+                    "containers"
+                ]
+            },
+            {
+                "id": "do_core_2",
+                "question": "Explain Kubernetes deployments, replicaSets, and pods. How does rolling update work?",
+                "difficulty": "medium",
+                "tags": [
+                    "kubernetes",
+                    "deployment",
+                    "rolling-update"
+                ]
+            },
+            {
+                "id": "do_core_3",
+                "question": "What is an SLA, SLO, and SLI? How do you define them for a service?",
+                "difficulty": "medium",
+                "tags": [
+                    "sre",
+                    "reliability",
+                    "slo"
+                ]
+            },
+            {
+                "id": "do_core_4",
+                "question": "Explain the purpose and lifecycle of a Kubernetes CRD (Custom Resource Definition).",
+                "difficulty": "hard",
+                "tags": [
+                    "kubernetes",
+                    "crd",
+                    "operators"
+                ]
+            },
+            {
+                "id": "do_core_5",
+                "question": "How does network policy work in Kubernetes? How do you restrict inter-pod communication?",
+                "difficulty": "hard",
+                "tags": [
+                    "kubernetes",
+                    "networking",
+                    "security"
+                ]
+            },
+            {
+                "id": "do_core_6",
+                "question": "What is immutable infrastructure? How does it differ from traditional server management?",
+                "difficulty": "medium",
+                "tags": [
+                    "infrastructure",
+                    "immutability",
+                    "devops"
+                ]
+            },
+            {
+                "id": "do_core_7",
+                "question": "Explain how Prometheus scraping and alerting works. What is the push vs pull model?",
+                "difficulty": "medium",
+                "tags": [
+                    "prometheus",
+                    "metrics",
+                    "monitoring"
+                ]
+            },
+            {
+                "id": "do_core_8",
+                "question": "What is GitOps? How does ArgoCD or Flux implement it?",
+                "difficulty": "medium",
+                "tags": [
+                    "gitops",
+                    "argocd",
+                    "kubernetes"
+                ]
+            },
+            {
+                "id": "do_core_9",
+                "question": "How does TLS termination work in a reverse proxy (e.g., nginx, traefik)?",
+                "difficulty": "medium",
+                "tags": [
+                    "tls",
+                    "ssl",
+                    "proxy",
+                    "security"
+                ]
+            },
+            {
+                "id": "do_core_10",
+                "question": "What is the etcd key-value store and why is it critical to Kubernetes?",
+                "difficulty": "hard",
+                "tags": [
+                    "kubernetes",
+                    "etcd",
+                    "distributed"
+                ]
+            }
+        ]
+    }
+}
